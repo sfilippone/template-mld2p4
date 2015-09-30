@@ -56,6 +56,7 @@ module mld_@X@_ilu_solver
     real(@FKIND@)                :: thresh
   contains
     procedure, pass(sv) :: dump    => mld_@X@_ilu_solver_dmp
+    procedure, pass(sv) :: ccheck  => @X@_ilu_solver_check
     procedure, pass(sv) :: clone   => mld_@X@_ilu_solver_clone
     procedure, pass(sv) :: build   => mld_@X@_ilu_solver_bld
     procedure, pass(sv) :: cnv     => mld_@X@_ilu_solver_cnv
@@ -82,7 +83,7 @@ module mld_@X@_ilu_solver
        &  @X@_ilu_solver_descr,  @X@_ilu_solver_sizeof, &
        &  @X@_ilu_solver_default, @X@_ilu_solver_dmp, &
        &  @X@_ilu_solver_apply_vect, @X@_ilu_solver_get_nzeros, &
-       &  @X@_ilu_solver_get_fmt
+       &  @X@_ilu_solver_get_fmt, @X@_ilu_solver_check
 
 
   character(len=15), parameter, private :: &
