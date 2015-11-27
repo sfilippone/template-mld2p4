@@ -15,6 +15,16 @@ s/@RONE@/done/g
 
 s/@DOT@/zdotc/g
 s/@NRM2@/dznrm2/g
+/^ *@IS@ *$/,/^ *@IE@ *$/d
+/^ *@NOTIS@ *$/d
+/^ *@NOTIE@ *$/d
+/^ *@NOTCS@ *$/,/^ *@NOTCE@ *$/d
+/^ *@CS@ *$/d
+/^ *@CE@ *$/d
+/^ *@NOTSS@ *$/d
+/^ *@NOTSE@ *$/d
+/^ *@SS@ *$/,/^ *@SE@ *$/d
+
 
 s/@MPI_TYPE@/psb_mpi_c_dpk_/g
 s/@PSB_SWAP_TAG@/psb_dcomplex_swap_tag/g
