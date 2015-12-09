@@ -24,3 +24,11 @@ s/@NRM2@/dznrm2/g
 7. The "sister" real type, i.e. S,C: S,  D,Z: D
 s/@RT@/d/g
 
+8. Specialized sections of code (markers are lines on their own) 
+  @INTS@     @INTE@         Integer start/end
+  @NOTINTS@  @NOTINTE@      Not Integer start/end	
+  @CPLXS@    @CPLXE@        Complex start/end
+  @REALS@    @REALE@        Real start/end
+  @SPKS@     @SPKE@	    Single precision start/end
+  @DPKS@     @DPKE@	    Double precision start/end	
+  
