@@ -85,14 +85,14 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev)
   use mld_@X@_diag_solver
   use mld_@X@_ilu_solver
   use mld_@X@_id_solver
-@NOTSS@
+@DPKS@
 #if defined(HAVE_UMF_)
   use mld_@X@_umf_solver
 #endif
 #if defined(HAVE_SLUDIST_)
   use mld_@X@_sludist_solver
 #endif
-@NOTSE@  
+@DPKE@  
 #if defined(HAVE_SLU_)
   use mld_@X@_slu_solver
 #endif
@@ -200,7 +200,7 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev)
           select case (val) 
           case(mld_bjac_)
             call onelev_set_smoother(p%precv(nlev_),val,info)
-@NOTSS@
+@DPKS@
 #if defined(HAVE_UMF_)
             call onelev_set_solver(p%precv(nlev_),mld_umf_,info)
 #elif defined(HAVE_SLU_) 
@@ -208,14 +208,14 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev)
 #else 
             call onelev_set_solver(p%precv(nlev_),mld_ilu_n_,info)
 #endif
-@NOTSE@            
-@SS@
+@DPKE@            
+@SPKS@
 #if  defined(HAVE_SLU_) 
             call onelev_set_solver(p%precv(nlev_),mld_slu_,info)
 #else 
             call onelev_set_solver(p%precv(nlev_),mld_ilu_n_,info)
 #endif
-@SE@            
+@SPKE@            
             call p%precv(nlev_)%set('COARSE_MAT',mld_distr_mat_,info)
           case(mld_umf_, mld_slu_,mld_ilu_n_, mld_ilu_t_,mld_milu_n_)
             call onelev_set_smoother(p%precv(nlev_),mld_bjac_,info)
@@ -311,7 +311,7 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev)
         select case (val) 
         case(mld_bjac_)
           call onelev_set_smoother(p%precv(nlev_),mld_bjac_,info)
-@NOTSS@
+@DPKS@
 #if defined(HAVE_UMF_)
           call onelev_set_solver(p%precv(nlev_),mld_umf_,info)
 #elif defined(HAVE_SLU_) 
@@ -319,14 +319,14 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev)
 #else 
           call onelev_set_solver(p%precv(nlev_),mld_ilu_n_,info)
 #endif
-@NOTSE@
-@SS@
+@DPKE@
+@SPKS@
 #if  defined(HAVE_SLU_) 
           call onelev_set_solver(p%precv(nlev_),mld_slu_,info)
 #else 
           call onelev_set_solver(p%precv(nlev_),mld_ilu_n_,info)
 #endif
-@SE@
+@SPKE@
           call p%precv(nlev_)%set('COARSE_MAT',mld_distr_mat_,info)
         case(mld_umf_, mld_slu_,mld_ilu_n_, mld_ilu_t_,mld_milu_n_)
           call onelev_set_smoother(p%precv(nlev_),mld_bjac_,info)
@@ -557,7 +557,7 @@ contains
              & call level%sm%sv%default()
       end if
 #endif
-@NOTSS@
+@DPKS@
 #ifdef HAVE_UMF_
     case (mld_umf_) 
       if (allocated(level%sm%sv)) then 
@@ -598,7 +598,7 @@ contains
              & call level%sm%sv%default()
       end if
 #endif
-@NOTSE@
+@DPKE@
     case default
       !
       ! Do nothing and hope for the best :) 
