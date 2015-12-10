@@ -199,10 +199,10 @@ subroutine mld_@X@precinit(p,ptype,info,nlev)
 #elif defined(HAVE_SLU_) 
     allocate(mld_@X@_slu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)
 @DPKE@
-@DPKS@
+@SPKS@
 #if defined(HAVE_SLU_) 
     allocate(mld_@X@_slu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)
-@DPKE@
+@SPKE@
 #else 
     allocate(mld_@X@_ilu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)       
 #endif

@@ -23,7 +23,7 @@ s/@NRM2@/dnrm2/g
 /^ *@REALE@ *$/d
 /^ *@DPKS@ *$/d
 /^ *@DPKE@ *$/d
-/^ *@DPKS@ *$/,/^ *@DPKE@ *$/d
+/^ *@SPKS@ *$/,/^ *@SPKE@ *$/d
 
 
 s/@MPI_TYPE@/psb_mpi_r_dpk_/g
