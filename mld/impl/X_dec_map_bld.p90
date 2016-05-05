@@ -54,7 +54,7 @@ subroutine mld_@X@_dec_map_bld(theta,a,desc_a,nlaggr,ilaggr,info)
   ! Local variables
   integer(psb_ipk_), allocatable  :: ils(:), neigh(:), irow(:), icol(:)
   @TYPE@(@FKIND@), allocatable  :: val(:), diag(:)
-  integer(psb_ipk_) :: icnt,nlp,k,n,ia,isz,nr, naggr,i,j,m, nz
+  integer(psb_ipk_) :: icnt,nlp,k,n,ia,isz,nr, naggr,i,j,m, nz, ilg
   real(@FKIND@)  :: cpling, tcl
   logical :: recovery
   integer(psb_ipk_) :: debug_level, debug_unit,err_act
@@ -125,7 +125,8 @@ subroutine mld_@X@_dec_map_bld(theta,a,desc_a,nlaggr,ilaggr,info)
 
         do k=1, nz
           j = icol(k)
-          if ((1<=j).and.(j<=nr).and.(i /= j)) then 
+          ilg = ilaggr(j)
+          if ((ilg<0).and.(1<=j).and.(j<=nr).and.(i /= j)) then 
             if (abs(val(k)) > theta*sqrt(abs(diag(i)*diag(j)))) then 
               ilaggr(j) = naggr
             else 
@@ -203,7 +204,7 @@ subroutine mld_@X@_dec_map_bld(theta,a,desc_a,nlaggr,ilaggr,info)
       !
       isz  = nr+1
       ia   = -1
-      cpling = szero
+      cpling = @XZERO@
       call a%csget(i,i,nz,irow,icol,val,info)
       if (info /= psb_success_) then 
         info=psb_err_from_subroutine_
