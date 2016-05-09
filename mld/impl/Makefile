@@ -9,7 +9,7 @@ SRC=Xmlprec_bld.p90 Xmlprec_aply.p90 \
     Xprecbld.p90 Xprecaply.p90 \
     Xprecinit.P90 Xprecset.P90 Xcprecset.P90 \
     Xilu0_fact.p90 Xiluk_fact.p90 Xilut_fact.p90 \
-    Xaggrmap_bld.p90 X_dec_map_bld.p90 \
+    Xcoarse_bld.p90 Xaggrmap_bld.p90 X_dec_map_bld.p90 \
     Xaggrmat_asb.p90  Xaggrmat_nosmth_asb.p90 \
     Xaggrmat_smth_asb.p90 Xaggrmat_minnrg_asb.p90 Xaggrmat_biz_asb.p90 
 

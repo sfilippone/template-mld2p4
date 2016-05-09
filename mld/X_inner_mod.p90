@@ -109,9 +109,10 @@ module mld_@X@_inner_mod
   end interface mld_coarse_bld
 
   interface mld_aggrmap_bld
-    subroutine mld_@X@aggrmap_bld(aggr_type,theta,a,desc_a,ilaggr,nlaggr,info)
+    subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,info)
       use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
       implicit none 
+      integer(psb_ipk_), intent(in)     :: iorder
       integer(psb_ipk_), intent(in)       :: aggr_type
       real(@FKIND@), intent(in)           :: theta
       type(psb_@X@spmat_type), intent(in) :: a
@@ -123,9 +124,10 @@ module mld_@X@_inner_mod
 
 
   interface  mld_dec_map_bld
-    subroutine mld_@X@_dec_map_bld(theta,a,desc_a,nlaggr,ilaggr,info)
+    subroutine mld_@X@_dec_map_bld(iorder,theta,a,desc_a,nlaggr,ilaggr,info)
       use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
       implicit none 
+      integer(psb_ipk_), intent(in)     :: iorder
       type(psb_@X@spmat_type), intent(in) :: a
       type(psb_desc_type), intent(in)    :: desc_a
       real(@FKIND@), intent(in)         :: theta
