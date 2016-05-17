@@ -199,14 +199,6 @@ subroutine mld_@X@precseti(p,what,val,info,ilev,pos)
 #endif
 @DPKE@
 @SPKS@            
-            call onelev_set_solver(p%precv(nlev_),mld_umf_,info)
-#elif defined(HAVE_SLU_) 
-            call onelev_set_solver(p%precv(nlev_),mld_slu_,info)
-#elif defined(HAVE_MUMPS_) 
-            call onelev_set_solver(p%precv(nlev_),mld_mumps_,info)
-#else 
-            call onelev_set_solver(p%precv(nlev_),mld_ilu_n_,info)
-#endif
 #if defined(HAVE_SLU_) 
             call p%precv(nlev_)%set(mld_sub_solve_,mld_slu_,info,pos=pos)
 #elif defined(HAVE_MUMPS_) 
@@ -298,13 +290,6 @@ subroutine mld_@X@precseti(p,what,val,info,ilev,pos)
 #endif
 @DPKE@          
 @SPKS@
-#if defined(HAVE_UMF_)
-          call onelev_set_solver(p%precv(nlev_),mld_umf_,info)
-#elif defined(HAVE_SLU_) 
-          call onelev_set_solver(p%precv(nlev_),mld_slu_,info)
-#else 
-          call onelev_set_solver(p%precv(nlev_),mld_ilu_n_,info)
-#endif
 #if defined(HAVE_SLU_) 
           call p%precv(nlev_)%set(mld_sub_solve_,mld_slu_,info,pos=pos)
 #else 

@@ -121,7 +121,7 @@ contains
   subroutine mld_@X@_iprecsetr(p,what,val,info,pos)
     type(mld_@X@prec_type), intent(inout)    :: p
     integer(psb_ipk_), intent(in)            :: what 
-    real(psb_dpk_), intent(in)             :: val
+    real(@FKIND@), intent(in)             :: val
     integer(psb_ipk_), intent(out)           :: info
     character(len=*), optional, intent(in)      :: pos
 
@@ -151,7 +151,7 @@ contains
   subroutine mld_@X@_cprecsetr(p,what,val,info,pos)
     type(mld_@X@prec_type), intent(inout)   :: p
     character(len=*), intent(in)            :: what 
-    real(psb_dpk_), intent(in)             :: val
+    real(@FKIND@), intent(in)             :: val
     integer(psb_ipk_), intent(out)          :: info
     character(len=*), optional, intent(in)      :: pos
 

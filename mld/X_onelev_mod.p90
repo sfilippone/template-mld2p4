@@ -217,6 +217,22 @@ module mld_@X@_onelev_mod
   end interface
   
   interface 
+    subroutine mld_@X@_base_onelev_seti(lv,what,val,info,pos)
+      import :: psb_@X@spmat_type, psb_@X@_vect_type, psb_@X@_base_vect_type, &
+           & psb_@X@linmap_type, @FKIND@, mld_@X@_onelev_type, &
+           & psb_ipk_, psb_long_int_k_, psb_desc_type
+      Implicit None
+      
+      ! Arguments
+      class(mld_@X@_onelev_type), intent(inout) :: lv 
+      integer(psb_ipk_), intent(in)             :: what 
+      integer(psb_ipk_), intent(in)             :: val
+      integer(psb_ipk_), intent(out)            :: info
+      character(len=*), optional, intent(in)      :: pos
+    end subroutine mld_@X@_base_onelev_seti
+  end interface
+
+  interface 
     subroutine mld_@X@_base_onelev_setsm(lv,val,info,pos)
       import :: @FKIND@, mld_@X@_onelev_type, mld_@X@_base_smoother_type, &
            & psb_ipk_, psb_long_int_k_, psb_desc_type
@@ -242,22 +258,6 @@ module mld_@X@_onelev_mod
       integer(psb_ipk_), intent(out)                  :: info
       character(len=*), optional, intent(in)          :: pos
     end subroutine mld_@X@_base_onelev_setsv
-  end interface
-
-  interface 
-    subroutine mld_@X@_base_onelev_seti(lv,what,val,info,pos)
-      import :: psb_@X@spmat_type, psb_@X@_vect_type, psb_@X@_base_vect_type, &
-           & psb_@X@linmap_type, @FKIND@, mld_@X@_onelev_type, &
-           & psb_ipk_, psb_long_int_k_, psb_desc_type
-      Implicit None
-      
-      ! Arguments
-      class(mld_@X@_onelev_type), intent(inout) :: lv 
-      integer(psb_ipk_), intent(in)             :: what 
-      integer(psb_ipk_), intent(in)             :: val
-      integer(psb_ipk_), intent(out)            :: info
-      character(len=*), optional, intent(in)      :: pos
-    end subroutine mld_@X@_base_onelev_seti
   end interface
   
   interface 
@@ -384,6 +384,7 @@ contains
     val = val + lv%ac%sizeof()
     val = val + lv%map%sizeof() 
     if (allocated(lv%sm))  val = val + lv%sm%sizeof()
+    if (allocated(lv%sm2a))  val = val + lv%sm2a%sizeof()
   end function @X@_base_onelev_sizeof
 
 
@@ -486,7 +487,7 @@ contains
   subroutine mld_@X@_onelev_move_alloc(a, b,info)
     use psb_base_mod
     implicit none
-    type(mld_@X@_onelev_type), intent(inout) :: a, b
+    type(mld_@X@_onelev_type), target, intent(inout) :: a, b
     integer(psb_ipk_), intent(out) :: info 
     
     call b%free(info)
