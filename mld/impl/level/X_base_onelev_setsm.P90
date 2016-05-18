@@ -36,77 +36,72 @@
 !!$  POSSIBILITY OF SUCH DAMAGE.
 !!$ 
 !!$
-subroutine mld_@X@_base_onelev_seti(lv,what,val,info)
-  
-  use psb_base_mod
-  use mld_@X@_onelev_mod, mld_protect_name => mld_@X@_base_onelev_seti
+subroutine mld_@X@_base_onelev_setsm(lev,val,info,pos)
 
-  Implicit None
+  use psb_base_mod
+  use mld_@X@_prec_mod, mld_protect_name => mld_@X@_base_onelev_setsm
+
+  implicit none
 
   ! Arguments
-  class(mld_@X@_onelev_type), intent(inout) :: lv 
-  integer(psb_ipk_), intent(in)             :: what 
-  integer(psb_ipk_), intent(in)             :: val
-  integer(psb_ipk_), intent(out)            :: info
-  Integer(Psb_ipk_)           :: err_act
-  character(len=20) :: name='@X@_base_onelev_seti'
-
-  call psb_erractionsave(err_act)
+  class(mld_@X@_onelev_type), target, intent(inout) :: lev
+  class(mld_@X@_base_smoother_type), intent(in)  :: val
+  integer(psb_ipk_), intent(out)               :: info
+  character(len=*), optional, intent(in)       :: pos
+  
+  ! Local variables
+  integer(psb_ipk_)                      :: ipos_
+  character(len=*), parameter            :: name='mld_base_onelev_setsm'
+  
   info = psb_success_
 
-  select case (what) 
-
-  case (mld_smoother_sweeps_)
-    lv%parms%sweeps      = val
-    lv%parms%sweeps_pre  = val
-    lv%parms%sweeps_post = val
-
-  case (mld_smoother_sweeps_pre_)
-    lv%parms%sweeps_pre  = val
-
-  case (mld_smoother_sweeps_post_)
-    lv%parms%sweeps_post = val
-
-  case (mld_ml_type_)
-    lv%parms%ml_type       = val
-
-  case (mld_aggr_alg_)
-    lv%parms%aggr_alg      = val
-
-  case (mld_aggr_ord_)
-    lv%parms%aggr_ord      = val
-
-  case (mld_aggr_kind_)
-    lv%parms%aggr_kind     = val
-
-  case (mld_coarse_mat_)
-    lv%parms%coarse_mat    = val
-
-  case (mld_smoother_pos_)
-    lv%parms%smoother_pos  = val
-
-  case (mld_aggr_omega_alg_)
-    lv%parms%aggr_omega_alg= val
-
-  case (mld_aggr_eig_)
-    lv%parms%aggr_eig      = val
-
-  case (mld_aggr_filter_)
-    lv%parms%aggr_filter   = val
-
-  case (mld_coarse_solve_)
-    lv%parms%coarse_solve    = val
-
-  case default
-    if (allocated(lv%sm)) then 
-      call lv%sm%set(what,val,info)
+  if (present(pos)) then
+    select case(psb_toupper(trim(pos)))
+    case('PRE')
+      ipos_ = mld_pre_smooth_
+    case('POST')
+      ipos_ = mld_post_smooth_
+    case default
+      ipos_ = mld_pre_smooth_
+    end select
+  else
+    ipos_ = mld_pre_smooth_
+  end if
+    
+  select case(ipos_)
+  case(mld_pre_smooth_) 
+    if (allocated(lev%sm)) then
+      if (.not.same_type_as(lev%sm,val)) then
+        call lev%sm%free(info)
+        deallocate(lev%sm, stat=info)
+      end if
+    endif
+    if (.not.allocated(lev%sm)) then
+#ifdef HAVE_MOLD 
+      allocate(lev%sm,mold=val) 
+#else
+      allocate(lev%sm,source=val) 
+#endif
     end if
+    call lev%sm%default()        
+    lev%sm2 => lev%sm
+  case(mld_post_smooth_) 
+    if (allocated(lev%sm2a)) then
+      if (.not.same_type_as(lev%sm2a,val)) then
+        call lev%sm2a%free(info)
+        deallocate(lev%sm2a, stat=info)
+      endif
+    end if
+    if (.not.allocated(lev%sm2a)) then
+#ifdef HAVE_MOLD 
+      allocate(lev%sm2a,mold=val) 
+#else
+      allocate(lev%sm2a,source=val) 
+#endif
+    end if
+    call lev%sm2a%default()
+    lev%sm2 => lev%sm2a
   end select
-  if (info /= psb_success_) goto 9999
-  call psb_erractionrestore(err_act)
-  return
+    
+end subroutine mld_@X@_base_onelev_setsm
 
-9999 call psb_error_handler(err_act)
-  return
-
-end subroutine mld_@X@_base_onelev_seti
