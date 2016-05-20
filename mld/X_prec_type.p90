@@ -81,7 +81,9 @@ module mld_@X@_prec_type
 
   type, extends(psb_@X@prec_type)        :: mld_@X@prec_type
     integer(psb_ipk_)                  :: ictxt
-    integer(psb_ipk_)                  :: coarse_aggr_size
+    integer(psb_ipk_)                  :: coarse_aggr_size = izero
+    integer(psb_ipk_)                  :: n_prec_levs      = -ione
+    integer(psb_ipk_)                  :: max_prec_levs    = 20_psb_ipk_
     real(@FKIND@)                        :: op_complexity=@RZERO@
     type(mld_@X@_onelev_type), allocatable :: precv(:) 
   contains
