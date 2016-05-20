@@ -8,7 +8,7 @@ MODULES=$(BASIC_MODS) $(UTIL_MODS)
 SRC=X_base_onelev_check.p90 X_base_onelev_descr.p90 X_base_onelev_dump.p90 \
     X_base_onelev_free.p90 X_base_onelev_setc.p90 X_base_onelev_seti.P90 \
     X_base_onelev_setr.p90 X_base_onelev_csetc.p90 X_base_onelev_cseti.P90 \
-    X_base_onelev_csetr.p90 X_base_onelev_cnv.p90 \
+    X_base_onelev_csetr.p90 X_base_onelev_cnv.p90 X_base_onelev_build.p90 \
     X_base_onelev_setsv.P90 X_base_onelev_setsm.P90
 
 
