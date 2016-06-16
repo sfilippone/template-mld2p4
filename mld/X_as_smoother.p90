@@ -97,7 +97,7 @@ module mld_@X@_as_smoother
   
   interface 
     subroutine mld_@X@_as_smoother_apply_vect(alpha,sm,x,beta,y,desc_data,&
-      & trans,sweeps,work,info)
+      & trans,sweeps,work,info,init,initu)
       import :: psb_@X@spmat_type, psb_@X@_vect_type, psb_@X@_base_vect_type, &
            & @FKIND@, mld_@X@_as_smoother_type, psb_long_int_k_, &
            & psb_desc_type, psb_ipk_
@@ -111,12 +111,14 @@ module mld_@X@_as_smoother
       integer(psb_ipk_), intent(in)                  :: sweeps
       @TYPE@(@FKIND@),target, intent(inout)          :: work(:)
       integer(psb_ipk_), intent(out)                 :: info
+      character, intent(in), optional                :: init
+      type(psb_@X@_vect_type),intent(inout), optional   :: initu
     end subroutine mld_@X@_as_smoother_apply_vect
   end interface
   
   interface
     subroutine mld_@X@_as_smoother_apply(alpha,sm,x,beta,y,desc_data,& 
-         & trans,sweeps,work,info)
+         & trans,sweeps,work,info,init,initu)
       import :: psb_@X@spmat_type, psb_@X@_vect_type, psb_@X@_base_vect_type, &
            & @FKIND@, mld_@X@_as_smoother_type, psb_long_int_k_,&
            & psb_desc_type, psb_ipk_
@@ -130,6 +132,8 @@ module mld_@X@_as_smoother
       integer(psb_ipk_), intent(in)         :: sweeps
       @TYPE@(@FKIND@),target, intent(inout) :: work(:)
       integer(psb_ipk_), intent(out)        :: info
+      character, intent(in), optional       :: init
+      @TYPE@(@FKIND@),intent(inout), optional :: initu(:)
     end subroutine mld_@X@_as_smoother_apply
   end interface
   
