@@ -16,7 +16,7 @@ SRC=X_as_smoother_apply.p90 X_as_smoother_apply_vect.p90 X_as_smoother_bld.p90 \
     X_base_smoother_cseti.p90   X_base_smoother_csetc.p90  X_base_smoother_csetr.p90 \
     X_base_smoother_setr.p90 X_base_smoother_clone.p90 X_base_smoother_cnv.p90 \
     X_jac_smoother_apply.p90 X_jac_smoother_apply_vect.p90  X_jac_smoother_bld.p90  \
-    X_jac_smoother_clone.p90 X_jac_smoother_cnv.p90
+    X_jac_smoother_clone.p90 X_jac_smoother_cnv.p90 X_jac_smoother_dmp.p90
 
 
 
