@@ -149,7 +149,7 @@ module mld_@X@_inner_mod
       type(psb_@X@spmat_type), intent(out)  :: op_prol
       integer(psb_ipk_), intent(out)      :: info
     end subroutine mld_@X@_lev_aggrmap_bld
-    subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,info)
+    subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,op_prol,info)
       use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
       implicit none 
       integer(psb_ipk_), intent(in)     :: iorder
@@ -158,6 +158,7 @@ module mld_@X@_inner_mod
       type(psb_@X@spmat_type), intent(in) :: a
       type(psb_desc_type), intent(in)     :: desc_a
       integer(psb_ipk_), allocatable, intent(out) :: ilaggr(:),nlaggr(:)
+      type(psb_@X@spmat_type), intent(out)  :: op_prol        
       integer(psb_ipk_), intent(out)      :: info
     end subroutine mld_@X@aggrmap_bld
   end interface mld_aggrmap_bld
