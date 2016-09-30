@@ -192,14 +192,15 @@ module mld_@X@_inner_mod
   end interface mld_lev_mat_asb
 
   interface mld_aggrmat_asb
-    subroutine mld_@X@aggrmat_asb(a,desc_a,ilaggr,nlaggr,p,info)
+    subroutine mld_@X@aggrmat_asb(a,desc_a,ilaggr,nlaggr,parms,ac,op_prol,op_restr,info)
       use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
-      use mld_@X@_prec_type, only : mld_@X@_onelev_type
+      use mld_@X@_prec_type, only : mld_@RT@ml_parms
       implicit none 
       type(psb_@X@spmat_type), intent(in)              :: a
       type(psb_desc_type), intent(in)                  :: desc_a
       integer(psb_ipk_), intent(inout)                 :: ilaggr(:), nlaggr(:)
-      type(mld_@X@_onelev_type), intent(inout), target :: p
+      type(mld_@RT@ml_parms), intent(inout)         :: parms 
+      type(psb_@X@spmat_type), intent(out)          :: ac,op_prol,op_restr
       integer(psb_ipk_), intent(out)                   :: info
     end subroutine mld_@X@aggrmat_asb
   end interface mld_aggrmat_asb
