@@ -124,11 +124,12 @@ module mld_@X@_inner_mod
   end interface mld_bld_mlhier_aggsize
 
   interface mld_bld_mlhier_array
-    subroutine mld_@X@_bld_mlhier_array(nplevs,a,desc_a,precv,info)
+    subroutine mld_@X@_bld_mlhier_array(nplevs,casize,mnaggratio,a,desc_a,precv,info)
       use psb_base_mod, only : psb_ipk_, psb_@X@spmat_type, psb_desc_type
       use mld_@X@_prec_type, only : mld_@X@_onelev_type
       implicit none 
-      integer(psb_ipk_), intent(inout)            :: nplevs
+      integer(psb_ipk_), intent(inout)            :: nplevs, casize
+      real(@FKIND@)                              :: mnaggratio
       type(psb_@X@spmat_type),intent(in), target :: a
       type(psb_desc_type), intent(inout), target  :: desc_a
       type(mld_@X@_onelev_type), allocatable, target, intent(inout)  :: precv(:)
@@ -137,6 +138,17 @@ module mld_@X@_inner_mod
   end interface mld_bld_mlhier_array
   
   interface mld_aggrmap_bld
+    subroutine mld_@X@_lev_aggrmap_bld(p,a,desc_a,ilaggr,nlaggr,op_prol,info)
+      use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
+      use mld_@X@_prec_type, only : mld_@X@_onelev_type
+      implicit none 
+      type(mld_@X@_onelev_type), intent(inout), target :: p
+      type(psb_@X@spmat_type), intent(in) :: a
+      type(psb_desc_type), intent(in)     :: desc_a
+      integer(psb_ipk_), intent(out) :: ilaggr(:),nlaggr(:)
+      type(psb_@X@spmat_type), intent(out)  :: op_prol
+      integer(psb_ipk_), intent(out)      :: info
+    end subroutine mld_@X@_lev_aggrmap_bld
     subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,info)
       use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
       implicit none 
@@ -164,6 +176,20 @@ module mld_@X@_inner_mod
     end subroutine mld_@X@_dec_map_bld
   end interface mld_dec_map_bld
 
+
+  interface mld_lev_mat_asb
+    subroutine mld_@X@_lev_aggrmat_asb(p,a,desc_a,ilaggr,nlaggr,op_prol,info)
+      use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
+      use mld_@X@_prec_type, only : mld_@X@_onelev_type
+      implicit none 
+      type(mld_@X@_onelev_type), intent(inout), target :: p
+      type(psb_@X@spmat_type), intent(in) :: a
+      type(psb_desc_type), intent(in)     :: desc_a
+      integer(psb_ipk_), intent(inout) :: ilaggr(:),nlaggr(:)
+      type(psb_@X@spmat_type), intent(inout)  :: op_prol
+      integer(psb_ipk_), intent(out)      :: info
+    end subroutine mld_@X@_lev_aggrmat_asb
+  end interface mld_lev_mat_asb
 
   interface mld_aggrmat_asb
     subroutine mld_@X@aggrmat_asb(a,desc_a,ilaggr,nlaggr,p,info)
