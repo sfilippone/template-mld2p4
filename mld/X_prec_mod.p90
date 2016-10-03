@@ -88,18 +88,14 @@ module mld_@X@_prec_mod
   end interface mld_precbld
 
   interface mld_hierarchy_bld
-    subroutine mld_@X@_hierarchy_bld(a,desc_a,prec,info,amold,vmold,imold)
+    subroutine mld_@X@_hierarchy_bld(a,desc_a,prec,info)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
-           & psb_@X@_base_sparse_mat, psb_@X@_base_vect_type, &
-           & psb_i_base_vect_type, mld_@X@prec_type, psb_ipk_
+           & mld_@X@prec_type, psb_ipk_
       implicit none
       type(psb_@X@spmat_type), intent(in), target          :: a
       type(psb_desc_type), intent(inout), target           :: desc_a
       type(mld_@X@prec_type), intent(inout), target        :: prec
       integer(psb_ipk_), intent(out)                       :: info
-      class(psb_@X@_base_sparse_mat), intent(in), optional :: amold
-      class(psb_@X@_base_vect_type), intent(in), optional  :: vmold
-      class(psb_i_base_vect_type), intent(in), optional  :: imold
       !      character, intent(in),optional             :: upd
     end subroutine mld_@X@_hierarchy_bld
   end interface mld_hierarchy_bld
@@ -124,8 +120,8 @@ module mld_@X@_prec_mod
     end subroutine mld_@X@_extprol_bld
   end interface mld_extprol_bld
   
-  interface mld_ml_prec_bld
-    subroutine mld_@X@_ml_prec_bld(a,desc_a,prec,info,amold,vmold,imold)
+  interface mld_smoothers_bld
+    subroutine mld_@X@_smoothers_bld(a,desc_a,prec,info,amold,vmold,imold)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
            & psb_@X@_base_sparse_mat, psb_@X@_base_vect_type, &
            & psb_i_base_vect_type, mld_@X@prec_type, psb_ipk_
@@ -138,8 +134,8 @@ module mld_@X@_prec_mod
       class(psb_@X@_base_vect_type), intent(in), optional  :: vmold
       class(psb_i_base_vect_type), intent(in), optional  :: imold
       !      character, intent(in),optional             :: upd
-    end subroutine mld_@X@_ml_prec_bld
-  end interface mld_ml_prec_bld
+    end subroutine mld_@X@_smoothers_bld
+  end interface mld_smoothers_bld
 
 contains
 
