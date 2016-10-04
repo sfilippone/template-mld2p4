@@ -36,6 +36,16 @@
 !!$  POSSIBILITY OF SUCH DAMAGE.
 !!$ 
 !!$
+!
+!
+! File: mld_@X@_ilu_fact_mod.f90
+!
+! Module: mld_@X@_ilu_fact_mod
+!
+!  This module defines some interfaces used internally by the implementation if
+!  mld_@X@_ilu_solver, but not visible to the end user. 
+!
+!
 module mld_@X@_ilu_fact_mod
 
   use mld_@X@_base_solver_mod 
