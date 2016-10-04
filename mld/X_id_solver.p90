@@ -42,7 +42,6 @@
 ! Identity solver. Reference for nullprec. 
 !
 !
-
 module mld_@X@_id_solver
 
   use mld_@X@_base_solver_mod
