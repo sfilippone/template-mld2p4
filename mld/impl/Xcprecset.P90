@@ -76,7 +76,7 @@
 !  For this reason, the interface mld_precset to this routine has been built in
 !  such a way that ilev is not visible to the user (see mld_prec_mod.f90).
 !   
-subroutine mld_@X@cprecseti(p,what,val,info,ilev,pos)
+subroutine mld_@X@cprecseti(p,what,val,info,ilev,ilmax,pos)
 
   use psb_base_mod
   use mld_@X@_prec_mod, mld_protect_name => mld_@X@cprecseti
@@ -109,7 +109,7 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,pos)
   character(len=*), intent(in)            :: what 
   integer(psb_ipk_), intent(in)           :: val
   integer(psb_ipk_), intent(out)          :: info
-  integer(psb_ipk_), optional, intent(in) :: ilev
+  integer(psb_ipk_), optional, intent(in) :: ilev,ilmax
   character(len=*), optional, intent(in)  :: pos
 
   ! Local variables
@@ -397,7 +397,7 @@ end subroutine mld_@X@cprecseti
 !  For this reason, the interface mld_precset to this routine has been built in
 !  such a way that ilev is not visible to the user (see mld_prec_mod.f90).
 !   
-subroutine mld_@X@cprecsetc(p,what,string,info,ilev,pos)
+subroutine mld_@X@cprecsetc(p,what,string,info,ilev,ilmax,pos)
 
   use psb_base_mod
   use mld_@X@_prec_mod, mld_protect_name => mld_@X@cprecsetc
@@ -409,7 +409,7 @@ subroutine mld_@X@cprecsetc(p,what,string,info,ilev,pos)
   character(len=*), intent(in)            :: what 
   character(len=*), intent(in)            :: string
   integer(psb_ipk_), intent(out)          :: info
-  integer(psb_ipk_), optional, intent(in) :: ilev
+  integer(psb_ipk_), optional, intent(in) :: ilev,ilmax
   character(len=*), optional, intent(in)      :: pos
 
   ! Local variables
@@ -485,7 +485,7 @@ end subroutine mld_@X@cprecsetc
 !  For this reason, the interface mld_precset to this routine has been built in
 !  such a way that ilev is not visible to the user (see mld_prec_mod.f90).
 !   
-subroutine mld_@X@cprecsetr(p,what,val,info,ilev,pos)
+subroutine mld_@X@cprecsetr(p,what,val,info,ilev,ilmax,pos)
 
   use psb_base_mod
   use mld_@X@_prec_mod, mld_protect_name => mld_@X@cprecsetr
@@ -497,7 +497,7 @@ subroutine mld_@X@cprecsetr(p,what,val,info,ilev,pos)
   character(len=*), intent(in)            :: what 
   @RTYPE@(@FKIND@), intent(in)              :: val
   integer(psb_ipk_), intent(out)          :: info
-  integer(psb_ipk_), optional, intent(in) :: ilev
+  integer(psb_ipk_), optional, intent(in) :: ilev,ilmax
   character(len=*), optional, intent(in)      :: pos
 
 ! Local variables
