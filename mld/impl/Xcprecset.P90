@@ -1,12 +1,13 @@
 !!$ 
 !!$ 
-!!$                           MLD2P4  version 2.0
+!!$                           MLD2P4  version 2.1
 !!$  MultiLevel Domain Decomposition Parallel Preconditioners Package
 !!$             based on PSBLAS (Parallel Sparse BLAS version 3.3)
 !!$  
-!!$  (C) Copyright 2008, 2010, 2012, 2015
+!!$  (C) Copyright 2008, 2010, 2012, 2015, 2017 
 !!$
-!!$                      Salvatore Filippone  University of Rome Tor Vergata
+!!$                      Salvatore Filippone  Cranfield University
+!!$		      Ambra Abdullahi Hassan University of Rome Tor Vergata
 !!$                      Alfredo Buttari      CNRS-IRIT, Toulouse
 !!$                      Pasqua D'Ambra       ICAR-CNR, Naples
 !!$                      Daniela di Serafino  Second University of Naples
@@ -86,14 +87,12 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,pos)
   use mld_@X@_ilu_solver
   use mld_@X@_id_solver
   use mld_@X@_gs_solver
-@DPKS@
 #if defined(HAVE_UMF_)
   use mld_@X@_umf_solver
 #endif
 #if defined(HAVE_SLUDIST_)
   use mld_@X@_sludist_solver
 #endif
-@DPKE@  
 #if defined(HAVE_SLU_)
   use mld_@X@_slu_solver
 #endif
@@ -202,7 +201,6 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,pos)
           select case (val) 
           case(mld_bjac_)
             call p%precv(nlev_)%set('SMOOTHER_TYPE',mld_bjac_,info,pos=pos)
-@DPKS@
 #if defined(HAVE_UMF_)
             call p%precv(nlev_)%set('SUB_SOLVE',mld_umf_,info,pos=pos)
 #elif defined(HAVE_SLU_)
@@ -212,16 +210,6 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,pos)
 #else
             call p%precv(nlev_)%set('SUB_SOLVE',mld_ilu_n_,info,pos=pos)
 #endif
-@DPKE@            
-@SPKS@
-#if defined(HAVE_SLU_)
-            call p%precv(nlev_)%set('SUB_SOLVE',mld_slu_,info,pos=pos)
-#elif defined(HAVE_MUMPS_)
-            call p%precv(nlev_)%set('SUB_SOLVE',mld_mumps_,info,pos=pos)
-#else
-            call p%precv(nlev_)%set('SUB_SOLVE',mld_ilu_n_,info,pos=pos)
-#endif
-@SPKE@            
             call p%precv(nlev_)%set('COARSE_MAT',mld_distr_mat_,info)
           case(mld_umf_, mld_slu_,mld_ilu_n_, mld_ilu_t_,mld_milu_n_)
             call p%precv(nlev_)%set('SMOOTHER_TYPE',mld_bjac_,info,pos=pos)
@@ -296,7 +284,6 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,pos)
         select case (val) 
         case(mld_bjac_)
           call p%precv(nlev_)%set('SMOOTHER_TYPE',mld_bjac_,info,pos=pos)
-@DPKS@
 #if defined(HAVE_UMF_)
           call p%precv(nlev_)%set('SUB_SOLVE',mld_umf_,info,pos=pos)
 #elif defined(HAVE_SLU_)
@@ -306,16 +293,6 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,pos)
 #else
           call p%precv(nlev_)%set('SUB_SOLVE',mld_ilu_n_,info,pos=pos)
 #endif
-@DPKE@
-@SPKS@
-#if defined(HAVE_SLU_)
-          call p%precv(nlev_)%set('SUB_SOLVE',mld_slu_,info,pos=pos)
-#elif defined(HAVE_MUMPS_)
-          call p%precv(nlev_)%set('SUB_SOLVE',mld_mumps_,info,pos=pos)
-#else
-          call p%precv(nlev_)%set('SUB_SOLVE',mld_ilu_n_,info,pos=pos)
-#endif
-@SPKE@
           call p%precv(nlev_)%set('COARSE_MAT',mld_distr_mat_,info)
         case(mld_umf_, mld_slu_,mld_ilu_n_, mld_ilu_t_,mld_milu_n_)
           call p%precv(nlev_)%set('SMOOTHER_TYPE',mld_bjac_,info,pos=pos)
@@ -467,7 +444,7 @@ end subroutine mld_@X@cprecsetc
 !               The number identifying the parameter to be set.
 !               A mnemonic constant has been associated to each of these
 !               numbers, as reported in the MLD2P4 User's and Reference Guide.
-!    val     -  @RTYPE@(@FKIND@), input.
+!    val     -  @TYPE@(@FKIND@), input.
 !               The value of the parameter to be set. The list of allowed
 !               values is reported in the MLD2P4 User's and Reference Guide.
 !    info    -  integer, output.

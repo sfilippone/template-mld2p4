@@ -1,12 +1,13 @@
 !!$
 !!$ 
-!!$                           MLD2P4  version 2.0
+!!$                           MLD2P4  version 2.1
 !!$  MultiLevel Domain Decomposition Parallel Preconditioners Package
 !!$             based on PSBLAS (Parallel Sparse BLAS version 3.3)
 !!$  
-!!$  (C) Copyright 2008, 2010, 2012, 2015
+!!$  (C) Copyright 2008, 2010, 2012, 2015, 2017 
 !!$
-!!$                      Salvatore Filippone  University of Rome Tor Vergata
+!!$                      Salvatore Filippone  Cranfield University
+!!$		      Ambra Abdullahi Hassan University of Rome Tor Vergata
 !!$                      Alfredo Buttari      CNRS-IRIT, Toulouse
 !!$                      Pasqua D'Ambra       ICAR-CNR, Naples
 !!$                      Daniela di Serafino  Second University of Naples
@@ -56,6 +57,7 @@ module mld_@X@_prec_type
   use mld_base_prec_type
   use mld_@X@_base_solver_mod
   use mld_@X@_base_smoother_mod
+  use mld_@X@_base_aggregator_mod
   use mld_@X@_onelev_mod
   use psb_prec_mod, only : psb_@X@prec_type
 
@@ -94,8 +96,8 @@ module mld_@X@_prec_type
     ! 3. maximum number of levels.   Defaults to  20 
     integer(psb_ipk_)                  :: max_prec_levs    = 20_psb_ipk_
     ! 4. min_aggr_ratio   = 1.5     
-    real(@FKIND@)                     :: min_aggr_ratio    = 1.5_@FKIND@
-    real(@FKIND@)                     :: op_complexity=@RZERO@
+    @RTYPE@(@FKIND@)                     :: min_aggr_ratio    = 1.5_@FKIND@
+    @RTYPE@(@FKIND@)                     :: op_complexity=@RZERO@
     !
     ! Number of outer sweeps. Sometimes  2 V-cycles may be better than 1 W-cycle. 
     !
@@ -116,6 +118,7 @@ module mld_@X@_prec_type
     procedure, pass(prec)               :: sizeof => mld_@X@prec_sizeof
     procedure, pass(prec)               :: setsm  => mld_@X@precsetsm
     procedure, pass(prec)               :: setsv  => mld_@X@precsetsv
+    procedure, pass(prec)               :: setag  => mld_@X@precsetag
     procedure, pass(prec)               :: seti   => mld_@X@precseti
     procedure, pass(prec)               :: setc   => mld_@X@precsetc
     procedure, pass(prec)               :: setr   => mld_@X@precsetr
@@ -123,7 +126,7 @@ module mld_@X@_prec_type
     procedure, pass(prec)               :: csetc  => mld_@X@cprecsetc
     procedure, pass(prec)               :: csetr  => mld_@X@cprecsetr
     generic, public                     :: set => seti, setc, setr, & 
-         &       cseti, csetc, csetr, setsm, setsv 
+         &       cseti, csetc, csetr, setsm, setsv, setag 
     procedure, pass(prec)               :: get_smoother => mld_@X@_get_smootherp
     procedure, pass(prec)               :: get_solver   => mld_@X@_get_solverp
     procedure, pass(prec)               :: move_alloc   => @X@_prec_move_alloc
@@ -212,6 +215,15 @@ module mld_@X@_prec_type
       integer(psb_ipk_), optional, intent(in)     :: ilev
       character(len=*), optional, intent(in)      :: pos
     end subroutine mld_@X@precsetsv
+    subroutine mld_@X@precsetag(prec,val,info,ilev,pos)
+      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
+           & mld_@X@prec_type, mld_@X@_base_aggregator_type, psb_ipk_
+      class(mld_@X@prec_type), intent(inout)      :: prec
+      class(mld_@X@_base_aggregator_type), intent(in) :: val
+      integer(psb_ipk_), intent(out)              :: info
+      integer(psb_ipk_), optional, intent(in)     :: ilev
+      character(len=*), optional, intent(in)      :: pos
+    end subroutine mld_@X@precsetag
     subroutine mld_@X@precseti(prec,what,val,info,ilev,pos)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
            & mld_@X@prec_type, psb_ipk_
@@ -227,7 +239,7 @@ module mld_@X@_prec_type
            & mld_@X@prec_type, psb_ipk_
       class(mld_@X@prec_type), intent(inout)   :: prec
       integer(psb_ipk_), intent(in)            :: what 
-      real(@FKIND@), intent(in)                :: val
+      @RTYPE@(@FKIND@), intent(in)                :: val
       integer(psb_ipk_), intent(out)           :: info
       integer(psb_ipk_), optional, intent(in)  :: ilev
       character(len=*), optional, intent(in)      :: pos
@@ -257,7 +269,7 @@ module mld_@X@_prec_type
            & mld_@X@prec_type, psb_ipk_
       class(mld_@X@prec_type), intent(inout)   :: prec
       character(len=*), intent(in)             :: what 
-      real(@FKIND@), intent(in)                :: val
+      @RTYPE@(@FKIND@), intent(in)                :: val
       integer(psb_ipk_), intent(out)           :: info
       integer(psb_ipk_), optional, intent(in)  :: ilev
       character(len=*), optional, intent(in)      :: pos
@@ -391,12 +403,12 @@ contains
     implicit none 
     class(mld_@X@prec_type), intent(inout) :: prec
     
-    real(@FKIND@) :: num,den
+    @RTYPE@(@FKIND@) :: num, den, nmin
     integer(psb_ipk_) :: ictxt 
     integer(psb_ipk_)  :: il 
 
-    num = -done
-    den = done
+    num = -@RONE@
+    den = @RONE@
     ictxt = prec%ictxt
     if (allocated(prec%precv)) then 
       il  = 1
@@ -408,9 +420,11 @@ contains
         end do
       end if
     end if
-    call psb_min(ictxt,num) 
-    if (num < @RZERO@) then 
-      den = done
+    nmin = num
+    call psb_min(ictxt,nmin) 
+    if (nmin < @RZERO@) then
+      num = @RZERO@
+      den = @RONE@
     else
       call psb_sum(ictxt,num)
       call psb_sum(ictxt,den)
@@ -498,7 +512,7 @@ contains
           ! Print description of base preconditioner
           !
           if (nlev > 1) then
-            write(iout_,*) 'Multilevel Schwarz'
+            write(iout_,*) 'Multilevel Preconditioner'
             write(iout_,*) 'Outer sweeps:',p%outer_sweeps
             write(iout_,*) 
             write(iout_,*) 'Base preconditioner (smoother) details'

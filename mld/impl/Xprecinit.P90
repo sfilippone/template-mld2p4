@@ -1,12 +1,13 @@
 !!$ 
 !!$ 
-!!$                           MLD2P4  version 2.0
+!!$                           MLD2P4  version 2.1
 !!$  MultiLevel Domain Decomposition Parallel Preconditioners Package
 !!$             based on PSBLAS (Parallel Sparse BLAS version 3.3)
 !!$  
-!!$  (C) Copyright 2008, 2010, 2012, 2015
+!!$  (C) Copyright 2008, 2010, 2012, 2015, 2017 
 !!$
-!!$                      Salvatore Filippone  University of Rome Tor Vergata
+!!$                      Salvatore Filippone  Cranfield University
+!!$		      Ambra Abdullahi Hassan University of Rome Tor Vergata
 !!$                      Alfredo Buttari      CNRS-IRIT, Toulouse
 !!$                      Pasqua D'Ambra       ICAR-CNR, Naples
 !!$                      Daniela di Serafino  Second University of Naples
@@ -97,11 +98,9 @@ subroutine mld_@X@precinit(p,ptype,info,nlev)
   use mld_@X@_id_solver
   use mld_@X@_diag_solver
   use mld_@X@_ilu_solver
-@DPKS@
 #if defined(HAVE_UMF_)
   use mld_@X@_umf_solver
 #endif
-@DPKE@
 #if defined(HAVE_SLU_)
   use mld_@X@_slu_solver
 #endif
@@ -195,16 +194,10 @@ subroutine mld_@X@precinit(p,ptype,info,nlev)
     ilev_ = nlev_
     allocate(mld_@X@_jac_smoother_type :: p%precv(ilev_)%sm, stat=info) 
     if (info /= psb_success_) return
-@DPKS@
 #if defined(HAVE_UMF_) 
     allocate(mld_@X@_umf_solver_type :: p%precv(ilev_)%sm%sv, stat=info)       
 #elif defined(HAVE_SLU_) 
     allocate(mld_@X@_slu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)
-@DPKE@
-@SPKS@
-#if defined(HAVE_SLU_) 
-    allocate(mld_@X@_slu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)
-@SPKE@
 #else 
     allocate(mld_@X@_ilu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)       
 #endif

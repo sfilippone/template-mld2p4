@@ -5,12 +5,10 @@ UTIL_MODS =
 
 MODULES=$(BASIC_MODS) $(UTIL_MODS)
 
-SRC=X_prec_type.p90 X_prec_mod.p90 \
-  X_base_solver_mod.p90 X_base_smoother_mod.p90 X_onelev_mod.p90\
-  X_as_smoother.p90 X_jac_smoother.p90 X_diag_solver.p90 X_id_solver.p90\
-  X_ilu_solver.p90 X_inner_mod.p90 X_ilu_fact_mod.p90 \
-  X_umf_solver.P90 X_slu_solver.P90 X_sludist_solver.P90 X_gs_solver.p90 X_mumps_solver.P90\
-  X_base_aggregator_mod.p90 X_hybrid_aggregator_mod.P90 X_symdec_aggregator_mod.p90
+SRC= Xaggrmat_asb.p90 Xaggrmat_biz_asb.p90 Xaggrmat_minnrg_asb.p90 Xaggrmat_nosmth_asb.p90 \
+    Xaggrmat_smth_asb.p90 X_base_aggregator_mat_asb.p90 X_base_aggregator_tprol.p90 \
+    X_dec_map_bld.p90 X_hyb_map_bld.p90 X_hybrid_aggregator_tprol.p90 X_map_to_tprol.p90\
+    X_symdec_aggregator_tprol.p90
 
 
 FSRC1=$(patsubst %.p90, %.f90, $(subst X, mld_$(ARITH), $(filter %.p90, $(SRC))))
@@ -28,7 +26,7 @@ CINCLUDES=-I.
 FINCLUDES=$(FMFLAG)$(LIBDIR) $(FMFLAG). $(FIFLAG).
 
 
-src: ssingle sdouble scomplex sdcompl simpl
+src: ssingle sdouble scomplex sdcompl
 ssingle:
 	$(MAKE) bsrc ARITH=s
 sdouble:
@@ -37,15 +35,6 @@ scomplex:
 	$(MAKE) bsrc ARITH=c
 sdcompl:
 	$(MAKE) bsrc ARITH=z
-
-
-simpl:
-	cd impl && $(MAKE) src
-
-iclean:
-	cd impl && $(MAKE) clean
-
-
 
 all:  single double complex dcompl
 
@@ -64,20 +53,12 @@ bsrc: $(FSRC)
 lib: $(FOBJS)
 
 
-X_prec_type.p90: X_onelev_mod.p90
-	touch $@
-X_onelev_mod.p90: X_base_smoother_mod.p90
-	touch $@
-X_base_smoother_mod.p90: X_base_solver_mod.p90
-	touch $@
-
 
 $(FSRC1): mld_$(ARITH)%.f90 : X%.p90
-	sed -f ../$(ARITH).sed $< >$@
+	sed -f ../../../$(ARITH).sed $< >$@
 $(FSRC2): mld_$(ARITH)%.F90 : X%.P90 
-	sed -f ../$(ARITH).sed $< >$@
+	sed -f ../../../$(ARITH).sed $< >$@
 
-clean: iclean
+clean:
 	/bin/rm -f *.f90 *.F90 *.o
-
 
