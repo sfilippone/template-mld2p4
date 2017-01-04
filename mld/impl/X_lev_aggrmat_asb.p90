@@ -50,7 +50,7 @@
 !  by mld_mlprec_bld, only on levels >=2.
 !  The main structure is:
 !  1. Perform sanity checks;
-!  2. Call mld_Xaggrmat_asb to compute prolongator/restrictor/AC
+!  2. Call p%aggr%mat_asb to compute prolongator/restrictor/AC
 !  3. According to the choice of DIST/REPL for AC, build a descriptor DESC_AC,
 !     and adjust the column numbering of AC/OP_PROL/OP_RESTR
 !  4. Pack restrictor and prolongator into p%map
@@ -119,6 +119,12 @@ subroutine mld_@X@_lev_aggrmat_asb(p,a,desc_a,ilaggr,nlaggr,op_prol,info)
   ictxt = desc_a%get_context()
   call psb_info(ictxt,me,np)
 
+  if (.not.allocated(p%aggr)) then
+    info = psb_err_internal_error_
+    call psb_errpush(info,name,a_err='invalid state')
+    goto 9999
+  end if
+
   call mld_check_def(p%parms%aggr_prol,'Smoother',&
        &   mld_smooth_prol_,is_legal_ml_aggr_prol)
   call mld_check_def(p%parms%coarse_mat,'Coarse matrix',&
@@ -137,8 +143,9 @@ subroutine mld_@X@_lev_aggrmat_asb(p,a,desc_a,ilaggr,nlaggr,op_prol,info)
   ! the mapping defined by mld_aggrmap_bld and applying the aggregation
   ! algorithm specified by p%iprcparm(mld_aggr_prol_)
   !
-  call mld_@X@aggrmat_asb(a,desc_a,ilaggr,nlaggr,p%parms,ac,op_prol,op_restr,info)
-
+    
+  call p%aggr%mat_asb(p%parms,a,desc_a,ilaggr,nlaggr,ac,op_prol,op_restr,info)
+  
   if(info /= psb_success_) then
     call psb_errpush(psb_err_from_subroutine_,name,a_err='mld_aggrmat_asb')
     goto 9999

@@ -38,7 +38,7 @@
 ! File: mld_@X@mlprec_aply.f90
 !
 ! Subroutine: mld_@X@mlprec_aply
-! Version:    real
+! Version:    @TYPE@
 !
 !  Current version of this file contributed by:
 !        Ambra Abdullahi Hassan University of Rome Tor Vergata, IT
@@ -225,11 +225,8 @@ subroutine mld_@X@mlprec_aply_vect(alpha,p,x,beta,y,desc_data,trans,work,info)
   character(len=20)  :: name
   character          :: trans_
   @TYPE@(@FKIND@)     :: beta_
-  type mld_mlprec_wrk_type
-    @TYPE@(@FKIND@), allocatable  :: tx(:), ty(:), x2l(:), y2l(:)
-    type(psb_@X@_vect_type)  :: vtx, vty, vx2l, vy2l
-  end type mld_mlprec_wrk_type
-  type(mld_mlprec_wrk_type), allocatable, target  :: mlprec_wrk(:)
+  logical            :: do_alloc_wrk
+  type(mld_@X@mlprec_wrk_type), allocatable, target  :: mlprec_wrk(:)
 
   name='mld_@X@mlprec_aply'
   info = psb_success_
@@ -246,33 +243,15 @@ subroutine mld_@X@mlprec_aply_vect(alpha,p,x,beta,y,desc_data,trans,work,info)
 
   trans_ = psb_toupper(trans)
   nlev   = size(p%precv)  
-  allocate(mlprec_wrk(nlev),stat=info) 
+
+  do_alloc_wrk = .not.allocated(p%wrk)
+  
+  if (do_alloc_wrk) call p%allocate_wrk(info,vmold=x%v)
   if (info /= psb_success_) then 
     call psb_errpush(psb_err_from_subroutine_,name,a_err='Allocate')
     goto 9999      
   end if
-  level = 1
-  do level = 1, nlev
-    call psb_geasb(mlprec_wrk(level)%vx2l,&
-         & p%precv(level)%base_desc,info,&
-         & scratch=.true.,mold=x%v)
-    call psb_geasb(mlprec_wrk(level)%vy2l,&
-         & p%precv(level)%base_desc,info,&
-         & scratch=.true.,mold=x%v)
-    call psb_geasb(mlprec_wrk(level)%vtx,&
-         & p%precv(level)%base_desc,info,&
-         & scratch=.true.,mold=x%v)
-    call psb_geasb(mlprec_wrk(level)%vty,&
-         & p%precv(level)%base_desc,info,&
-         & scratch=.true.,mold=x%v)
-    if (psb_errstatus_fatal()) then 
-      nc2l = p%precv(level)%base_desc%get_local_cols()
-      info=psb_err_alloc_request_
-      call psb_errpush(info,name,i_err=(/2*nc2l,izero,izero,izero,izero/),&
-           & a_err='@TYPE@(@FKIND@)')
-      goto 9999      
-    end if
-  end do
+
   !
   ! At first iteration we must use the input BETA
   !
@@ -327,20 +306,6 @@ subroutine mld_@X@mlprec_aply_vect(alpha,p,x,beta,y,desc_data,trans,work,info)
   call psb_geaxpby(alpha,mlprec_wrk(level)%vy2l,beta_,y,&
        &   p%precv(level)%base_desc,info)
   
-  do level = 1, nlev
-
-    call mlprec_wrk(level)%vx2l%free(info)
-    call mlprec_wrk(level)%vy2l%free(info)
-    call mlprec_wrk(level)%vtx%free(info)
-    call mlprec_wrk(level)%vty%free(info)
-    if (psb_errstatus_fatal()) then 
-      info=psb_err_alloc_request_
-      nc2l = p%precv(level)%base_desc%get_local_cols()
-      call psb_errpush(info,name,i_err=(/2*nc2l,izero,izero,izero,izero/),&
-           & a_err='@TYPE@(@FKIND@)')
-      goto 9999      
-    end if
-  end do
 
   if (info /= psb_success_) then
     call psb_errpush(psb_err_internal_error_,name,&
@@ -348,6 +313,7 @@ subroutine mld_@X@mlprec_aply_vect(alpha,p,x,beta,y,desc_data,trans,work,info)
     goto 9999
   end if
 
+  if (do_alloc_wrk) call p%free_wrk(info)
 
   call psb_erractionrestore(err_act)
   return
