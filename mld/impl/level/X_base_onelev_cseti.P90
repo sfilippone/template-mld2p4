@@ -48,7 +48,7 @@ subroutine mld_@X@_base_onelev_cseti(lv,what,val,info,pos)
   use mld_@X@_ilu_solver
   use mld_@X@_id_solver
   use mld_@X@_gs_solver
-@DKPS@
+@DPKS@
 #if defined(HAVE_UMF_)
   use mld_@X@_umf_solver
 #endif

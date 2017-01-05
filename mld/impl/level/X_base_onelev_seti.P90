@@ -86,6 +86,7 @@ subroutine mld_@X@_base_onelev_seti(lv,what,val,info,pos)
 #if defined(HAVE_UMF_)
   type(mld_@X@_umf_solver_type)   ::  mld_@X@_umf_solver_mold
 #endif
+@DPKE@
 #if defined(HAVE_SLUDIST_)
   type(mld_@X@_sludist_solver_type) ::  mld_@X@_sludist_solver_mold
 #endif
