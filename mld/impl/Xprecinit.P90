@@ -98,9 +98,11 @@ subroutine mld_@X@precinit(p,ptype,info,nlev)
   use mld_@X@_id_solver
   use mld_@X@_diag_solver
   use mld_@X@_ilu_solver
+@DPKS@
 #if defined(HAVE_UMF_)
   use mld_@X@_umf_solver
 #endif
+@DPKE@
 #if defined(HAVE_SLU_)
   use mld_@X@_slu_solver
 #endif
@@ -194,10 +196,16 @@ subroutine mld_@X@precinit(p,ptype,info,nlev)
     ilev_ = nlev_
     allocate(mld_@X@_jac_smoother_type :: p%precv(ilev_)%sm, stat=info) 
     if (info /= psb_success_) return
+@DPKS@
 #if defined(HAVE_UMF_) 
     allocate(mld_@X@_umf_solver_type :: p%precv(ilev_)%sm%sv, stat=info)       
 #elif defined(HAVE_SLU_) 
     allocate(mld_@X@_slu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)
+@DPKE@
+@SPKS@
+#if defined(HAVE_SLU_) 
+    allocate(mld_@X@_slu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)
+@SPKE@
 #else 
     allocate(mld_@X@_ilu_solver_type :: p%precv(ilev_)%sm%sv, stat=info)       
 #endif
