@@ -1,5 +1,6 @@
 !  
 !   
+<<<<<<< HEAD
 !                             MLD2P4  version 2.1
 !    MultiLevel Domain Decomposition Parallel Preconditioners Package
 !               based on PSBLAS (Parallel Sparse BLAS version 3.5)
@@ -9,6 +10,18 @@
 !        Salvatore Filippone    Cranfield University, UK
 !        Pasqua D'Ambra         IAC-CNR, Naples, IT
 !        Daniela di Serafino    University of Campania "L. Vanvitelli", Caserta, IT
+=======
+!                             MLD2P4  version 2.0
+!    MultiLevel Domain Decomposition Parallel Preconditioners Package
+!               based on PSBLAS (Parallel Sparse BLAS version 3.3)
+!    
+!    (C) Copyright 2008, 2010, 2012, 2015
+!  
+!                        Salvatore Filippone  University of Rome Tor Vergata
+!                        Alfredo Buttari      CNRS-IRIT, Toulouse
+!                        Pasqua D'Ambra       ICAR-CNR, Naples
+!                        Daniela di Serafino  Second University of Naples
+>>>>>>> 2b7d18d... template-mld-extaggr
 !   
 !    Redistribution and use in source and binary forms, with or without
 !    modification, are permitted provided that the following conditions
@@ -54,6 +67,8 @@ subroutine mld_@X@_base_onelev_cnv(lv,info,amold,vmold,imold)
   if (any((/present(amold),present(vmold),present(imold)/))) then 
     if (allocated(lv%sm)) &
          & call lv%sm%cnv(info,amold=amold,vmold=vmold,imold=imold)
+    if (allocated(lv%sm2a)) &
+         & call lv%sm2a%cnv(info,amold=amold,vmold=vmold,imold=imold)
     if (info == psb_success_.and. lv%ac%is_asb()) &
          & call lv%ac%cscnv(info,mold=amold)
     if (info == psb_success_ .and. lv%desc_ac%is_ok()) &
