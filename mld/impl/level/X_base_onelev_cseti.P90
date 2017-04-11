@@ -51,10 +51,10 @@ subroutine mld_@X@_base_onelev_cseti(lv,what,val,info,pos)
 #if defined(HAVE_UMF_)
   use mld_@X@_umf_solver
 #endif
-@DPKE@
 #if defined(HAVE_SLUDIST_)
   use mld_@X@_sludist_solver
 #endif
+@DPKE@
 #if defined(HAVE_SLU_)
   use mld_@X@_slu_solver
 #endif
@@ -85,10 +85,10 @@ subroutine mld_@X@_base_onelev_cseti(lv,what,val,info,pos)
 #if defined(HAVE_UMF_)
   type(mld_@X@_umf_solver_type)    ::  mld_@X@_umf_solver_mold
 #endif
-@DPKE@
 #if defined(HAVE_SLUDIST_)
   type(mld_@X@_sludist_solver_type) ::  mld_@X@_sludist_solver_mold
 #endif
+@DPKE@
 #if defined(HAVE_SLU_)
   type(mld_@X@_slu_solver_type)   ::  mld_@X@_slu_solver_mold
 #endif
@@ -180,15 +180,15 @@ subroutine mld_@X@_base_onelev_cseti(lv,what,val,info,pos)
     case (mld_slu_) 
       call lv%set(mld_@X@_slu_solver_mold,info,pos=pos)
 #endif
-#ifdef HAVE_SLUDIST_
-    case (mld_sludist_)
-      call lv%set(mld_@X@_sludist_solver_mold,info,pos=pos)
-#endif
 #ifdef HAVE_MUMPS_
     case (mld_mumps_) 
       call lv%set(mld_@X@_mumps_solver_mold,info,pos=pos)
 #endif
 @DPKS@      
+#ifdef HAVE_SLUDIST_
+    case (mld_sludist_)
+      call lv%set(mld_@X@_sludist_solver_mold,info,pos=pos)
+#endif
 #ifdef HAVE_UMF_
     case (mld_umf_)
       call lv%set(mld_@X@_umf_solver_mold,info,pos=pos)
@@ -212,8 +212,8 @@ subroutine mld_@X@_base_onelev_cseti(lv,what,val,info,pos)
   case ('SMOOTHER_SWEEPS_POST')
     lv%parms%sweeps_post = val
 
-  case ('ML_TYPE')
-    lv%parms%ml_type       = val
+  case ('ML_CYCLE')
+    lv%parms%ml_cycle      = val
 
   case ('AGGR_ALG')
     lv%parms%aggr_alg      = val
@@ -226,9 +226,6 @@ subroutine mld_@X@_base_onelev_cseti(lv,what,val,info,pos)
 
   case ('COARSE_MAT')
     lv%parms%coarse_mat    = val
-
-  case ('SMOOTHER_POS')
-    lv%parms%smoother_pos  = val
 
   case ('AGGR_OMEGA_ALG')
     lv%parms%aggr_omega_alg= val
