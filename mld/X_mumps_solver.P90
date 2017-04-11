@@ -488,12 +488,12 @@ contains
     val = "MUMPS solver"
   end function @X@_mumps_get_fmt
 
-  function @X@_mumps_solver_get_id() result(val)
+  function @X@_mumps_get_id() result(val)
     implicit none 
     integer(psb_ipk_)  :: val
 
     val = mld_mumps_
-  end function @X@_mumps_solver_get_id
+  end function @X@_mumps_get_id
 
 end module mld_@X@_mumps_solver
 

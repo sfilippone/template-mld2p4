@@ -433,11 +433,11 @@ contains
     val = "UMFPACK solver"
   end function @X@_umf_get_fmt
 
-  function @X@_umf_solver_get_id() result(val)
+  function @X@_umf_get_id() result(val)
     implicit none 
     integer(psb_ipk_)  :: val
 
     val = mld_umf_
-  end function @X@_umf_solver_get_id
+  end function @X@_umf_get_id
 #endif
 end module mld_@X@_umf_solver
