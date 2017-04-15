@@ -94,12 +94,14 @@ subroutine mld_@X@coarse_bld(a,desc_a,p,info)
 
   call mld_check_def(p%parms%ml_cycle,'Multilevel cycle',&
        &   mld_mult_ml_,is_legal_ml_cycle)
-  call mld_check_def(p%parms%aggr_alg,'Aggregation',&
-       &   mld_dec_aggr_,is_legal_ml_aggr_alg)
+  call mld_check_def(p%parms%aggr_type,'Aggregation type',&
+       &   mld_dec_aggr_,is_legal_ml_aggr_type)
+  call mld_check_def(p%parms%par_aggr_alg,'parallel Aggregation algorithm',&
+       &   mld_dec_aggr_,is_legal_ml_par_aggr_alg)
   call mld_check_def(p%parms%aggr_ord,'Ordering',&
        &   mld_aggr_ord_nat_,is_legal_ml_aggr_ord)
-  call mld_check_def(p%parms%aggr_kind,'Smoother',&
-       &   mld_smooth_prol_,is_legal_ml_aggr_kind)
+  call mld_check_def(p%parms%aggr_prol,'Smoother',&
+       &   mld_smooth_prol_,is_legal_ml_aggr_prol)
   call mld_check_def(p%parms%coarse_mat,'Coarse matrix',&
        &   mld_distr_mat_,is_legal_ml_coarse_mat)
   call mld_check_def(p%parms%aggr_filter,'Use filtered matrix',&
@@ -118,7 +120,7 @@ subroutine mld_@X@coarse_bld(a,desc_a,p,info)
   !  aggregation algorithm. This also defines a tentative prolongator from
   !  the coarse to the fine level.
   ! 
-  call mld_aggrmap_bld(p%parms%aggr_alg,p%parms%aggr_ord,p%parms%aggr_thresh,&
+  call mld_aggrmap_bld(p%parms%par_aggr_alg,p%parms%aggr_ord,p%parms%aggr_thresh,&
        & a,desc_a,ilaggr,nlaggr,info)
 
   if (info /= psb_success_) then
@@ -129,7 +131,7 @@ subroutine mld_@X@coarse_bld(a,desc_a,p,info)
   !
   ! Build the coarse-level matrix from the fine-level one, starting from 
   ! the mapping defined by mld_aggrmap_bld and applying the aggregation
-  ! algorithm specified by p%iprcparm(mld_aggr_kind_)
+  ! algorithm specified by p%iprcparm(mld_aggr_prol_)
   !
   call mld_aggrmat_asb(a,desc_a,ilaggr,nlaggr,p,info)
 

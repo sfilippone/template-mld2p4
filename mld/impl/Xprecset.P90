@@ -142,11 +142,11 @@ subroutine mld_@X@precseti(p,what,val,info,ilev,ilmax,pos)
 
 
   select case(what)
-  case (mld_coarse_aggr_size_)
-    p%coarse_aggr_size = max(val,-1)
+  case (mld_min_coarse_size_)
+    p%min_coarse_size = max(val,-1)
     return
-  case(mld_max_prec_levs_)
-    p%max_prec_levs = max(val,1)
+  case(mld_max_levs_)
+    p%max_levs = max(val,1)
     return
   case(mld_outer_sweeps_)
     p%outer_sweeps = max(val,1)
@@ -166,8 +166,8 @@ subroutine mld_@X@precseti(p,what,val,info,ilev,ilmax,pos)
 
       select case(what) 
       case(mld_smoother_type_,mld_sub_solve_,mld_smoother_sweeps_,&
-           & mld_ml_cycle_,mld_aggr_alg_,mld_aggr_ord_,&
-           & mld_aggr_kind_, mld_aggr_omega_alg_,mld_aggr_eig_,&
+           & mld_ml_cycle_,mld_par_aggr_alg_,mld_aggr_ord_,mld_aggr_type_,&
+           & mld_aggr_prol_, mld_aggr_omega_alg_,mld_aggr_eig_,&
            & mld_smoother_sweeps_pre_,mld_smoother_sweeps_post_,&
            & mld_sub_restr_,mld_sub_prol_, &
            & mld_sub_ren_,mld_sub_ovr_,mld_sub_fillin_,&
@@ -278,7 +278,7 @@ subroutine mld_@X@precseti(p,what,val,info,ilev,ilmax,pos)
         if (info /= 0) return 
       end do
 
-    case(mld_ml_cycle_,mld_aggr_alg_,mld_aggr_ord_,mld_aggr_kind_,&
+    case(mld_ml_cycle_,mld_par_aggr_alg_,mld_aggr_ord_,mld_aggr_type_,mld_aggr_prol_,&
          & mld_smoother_sweeps_pre_,mld_smoother_sweeps_post_,&
          & mld_aggr_eig_,mld_aggr_filter_)
       do ilev_=1,nlev_
@@ -620,8 +620,8 @@ subroutine mld_@X@precsetr(p,what,val,info,ilev,ilmax,pos)
   info = psb_success_
 
   select case(what)
-  case (mld_min_aggr_ratio_)
-    p%min_aggr_ratio = max(@RONE@,val)
+  case (mld_min_cr_ratio_)
+    p%min_cr_ratio = max(@RONE@,val)
     return
   end select
   
