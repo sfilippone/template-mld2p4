@@ -623,7 +623,7 @@ subroutine mld_@X@cprecsetc(p,what,string,info,ilev,ilmax,pos)
 
   val =  mld_stringval(string)
   if (val >=0)  then 
-    call p%set(what,val,info,ilev=ilev,pos=pos)
+    call p%set(what,val,info,ilev=ilev,ilmax=ilmax,pos=pos)
   else
     call p%precv(ilev_)%set(what,string,info,pos=pos)
   end if
