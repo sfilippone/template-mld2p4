@@ -114,7 +114,7 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,ilmax,pos)
   character(len=*), optional, intent(in)  :: pos
 
   ! Local variables
-  integer(psb_ipk_)                      :: ilev_, nlev_
+  integer(psb_ipk_)                      :: ilev_, nlev_, ilmax_
   character(len=*), parameter            :: name='mld_precseti'
 
   info = psb_success_
@@ -130,17 +130,21 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,ilmax,pos)
 
   if (present(ilev)) then 
     ilev_ = ilev
+    if (present(ilmax)) then
+      ilmax_ = ilmax
+    else
+      ilmax_ = ilev_
+    end if
   else
-    ilev_ = 1 
+    ilev_  = 1 
+    ilmax_ = ilev_
   end if
-
   if ((ilev_<1).or.(ilev_ > nlev_)) then 
     info = -1
     write(psb_err_unit,*) name,&
          &': Error: invalid ILEV/NLEV combination',ilev_, nlev_
     return
   endif
-
   
   select case(psb_toupper(what))
   case ('MIN_COARSE_SIZE')
