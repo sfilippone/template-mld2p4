@@ -56,13 +56,7 @@ $(FSRC1): mld_$(ARITH)%.f90 : X%.p90
 $(FSRC2): mld_$(ARITH)%.F90 : X%.P90 
 	sed -f $(TOP)/$(ARITH).sed $< >$@
 
-levelc:
-	cd level && $(MAKE) clean
-smootherc:
-	cd smoother && $(MAKE) clean
-solverc:
-	cd solver && $(MAKE) clean
-clean:  levelc smootherc solverc
+clean:  
 	/bin/rm -f *.f90 *.F90 *.o
 
 

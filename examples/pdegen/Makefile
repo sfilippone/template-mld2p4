@@ -6,7 +6,7 @@ UTIL_MODS =
 
 MODULES=$(BASIC_MODS) $(UTIL_MODS)
 
-SRC=Xf_sample.p90
+SRC=Xexample_1lev.p90 Xexample_ml.p90
 FSRC1=$(patsubst %.p90, %.f90, $(subst X, mld_$(ARITH), $(filter %.p90, $(SRC))))
 FSRC2=$(patsubst %.P90, %.F90, $(subst X, mld_$(ARITH), $(filter %.P90, $(SRC))))
 FSRC=$(FSRC1) $(FSRC2)
@@ -22,7 +22,8 @@ CINCLUDES=-I.
 FINCLUDES=$(FMFLAG)$(LIBDIR) $(FMFLAG). $(FIFLAG).
 
 
-src: ssingle sdouble scomplex sdcompl 
+src: ssingle sdouble 
+
 ssingle:
 	$(MAKE) bsrc ARITH=s
 sdouble:
@@ -55,7 +56,7 @@ $(FSRC1): mld_$(ARITH)%.f90 : X%.p90
 $(FSRC2): mld_$(ARITH)%.F90 : X%.P90 
 	sed -f $(TOP)/$(ARITH).sed $< >$@
 
-clean:
+clean:  
 	/bin/rm -f *.f90 *.F90 *.o
 
 
