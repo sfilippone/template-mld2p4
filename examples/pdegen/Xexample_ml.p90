@@ -86,43 +86,43 @@ contains
     use psb_base_mod, only : @FKIND@, @XONE@
     real(@FKIND@) :: b1
     real(@FKIND@), intent(in) :: x,y,z
-    b1=@XONE@/sqrt(3.d0)
+    b1=@XZERO@
   end function b1
   function b2(x,y,z)
     use psb_base_mod, only : @FKIND@, @XONE@
     real(@FKIND@) ::  b2
     real(@FKIND@), intent(in) :: x,y,z
-    b2=@XONE@/sqrt(3.d0)
+    b2=@XZERO@
   end function b2
   function b3(x,y,z)
     use psb_base_mod, only : @FKIND@, @XONE@
     real(@FKIND@) ::  b3
     real(@FKIND@), intent(in) :: x,y,z      
-    b3=@XONE@/sqrt(3.d0)
+    b3=@XZERO@
   end function b3
   function c(x,y,z)
     use psb_base_mod, only : @FKIND@, @XONE@
     real(@FKIND@) ::  c
     real(@FKIND@), intent(in) :: x,y,z      
-    c=0.d0
+    c=@XZERO@
   end function c
   function a1(x,y,z)
     use psb_base_mod, only : @FKIND@, @XONE@
     real(@FKIND@) ::  a1   
     real(@FKIND@), intent(in) :: x,y,z
-    a1=@XONE@/80
+    a1=@XONE@
   end function a1
   function a2(x,y,z)
     use psb_base_mod, only : @FKIND@, @XONE@
     real(@FKIND@) ::  a2
     real(@FKIND@), intent(in) :: x,y,z
-    a2=@XONE@/80
+    a2=@XONE@
   end function a2
   function a3(x,y,z)
     use psb_base_mod, only : @FKIND@, @XONE@
     real(@FKIND@) ::  a3
     real(@FKIND@), intent(in) :: x,y,z
-    a3=@XONE@/80
+    a3=@XONE@
   end function a3
   function g(x,y,z)
     use psb_base_mod, only : @FKIND@, @XONE@, @XZERO@
@@ -286,7 +286,7 @@ program mld_@X@example_ml
   call psb_barrier(ictxt)
   t1 = psb_wtime()
 
-  call psb_krylov('BICGSTAB',A,P,b,x,tol,desc_A,info,itmax,iter,err,itrace=1,istop=2)
+  call psb_krylov('CG',A,P,b,x,tol,desc_A,info,itmax,iter,err,itrace=1,istop=2)
 
   t2 = psb_wtime() - t1
   call psb_amx(ictxt,t2)
