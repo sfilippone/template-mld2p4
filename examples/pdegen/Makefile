@@ -6,7 +6,7 @@ UTIL_MODS =
 
 MODULES=$(BASIC_MODS) $(UTIL_MODS)
 
-SRC=Xexample_1lev.p90 Xexample_ml.p90
+SRC=Xexample_1lev.p90 Xexample_ml.p90 Xpde_mod.p90
 FSRC1=$(patsubst %.p90, %.f90, $(subst X, mld_$(ARITH), $(filter %.p90, $(SRC))))
 FSRC2=$(patsubst %.P90, %.F90, $(subst X, mld_$(ARITH), $(filter %.P90, $(SRC))))
 FSRC=$(FSRC1) $(FSRC2)

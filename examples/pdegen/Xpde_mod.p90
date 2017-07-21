@@ -1,0 +1,60 @@
+module mld_@X@_pde_mod
+contains
+  !
+  ! functions parametrizing the differential equation 
+  !  
+  function b1(x,y,z)
+    use psb_base_mod, only : @FKIND@, @XONE@
+    real(@FKIND@) :: b1
+    real(@FKIND@), intent(in) :: x,y,z
+    b1=@XZERO@
+  end function b1
+  function b2(x,y,z)
+    use psb_base_mod, only : @FKIND@, @XONE@
+    real(@FKIND@) ::  b2
+    real(@FKIND@), intent(in) :: x,y,z
+    b2=@XZERO@
+  end function b2
+  function b3(x,y,z)
+    use psb_base_mod, only : @FKIND@, @XONE@
+    real(@FKIND@) ::  b3
+    real(@FKIND@), intent(in) :: x,y,z      
+    b3=@XZERO@
+  end function b3
+  function c(x,y,z)
+    use psb_base_mod, only : @FKIND@, @XONE@
+    real(@FKIND@) ::  c
+    real(@FKIND@), intent(in) :: x,y,z      
+    c=@XZERO@
+  end function c
+  function a1(x,y,z)
+    use psb_base_mod, only : @FKIND@, @XONE@
+    real(@FKIND@) ::  a1   
+    real(@FKIND@), intent(in) :: x,y,z
+    a1=@XONE@
+  end function a1
+  function a2(x,y,z)
+    use psb_base_mod, only : @FKIND@, @XONE@
+    real(@FKIND@) ::  a2
+    real(@FKIND@), intent(in) :: x,y,z
+    a2=@XONE@
+  end function a2
+  function a3(x,y,z)
+    use psb_base_mod, only : @FKIND@, @XONE@
+    real(@FKIND@) ::  a3
+    real(@FKIND@), intent(in) :: x,y,z
+    a3=@XONE@
+  end function a3
+  function g(x,y,z)
+    use psb_base_mod, only : @FKIND@, @XONE@, @XZERO@
+    real(@FKIND@) ::  g
+    real(@FKIND@), intent(in) :: x,y,z
+    g = @XZERO@
+    if (x == @XONE@) then
+      g = @XONE@
+    else if (x == @XZERO@) then 
+      g = exp(y**2-z**2)
+    end if
+  end function g
+end module mld_@X@_pde_mod
+
