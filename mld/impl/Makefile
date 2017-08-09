@@ -9,7 +9,7 @@ SRC=Xmlprec_bld.p90 Xmlprec_aply.p90 \
     Xprecbld.p90 Xprecaply.p90 \
     Xprecinit.P90 Xprecset.P90 Xcprecset.P90 \
     Xilu0_fact.p90 Xiluk_fact.p90 Xilut_fact.p90 \
-    X_extprol_bld.p90 X_hierarchy_bld.p90 X_smoothers_bld.p90 X_lev_aggrmat_asb.p90 Xsp_renum.p90
+    X_extprol_bld.p90 X_hierarchy_bld.p90 X_smoothers_bld.p90 X_lev_aggrmat_asb.p90
 
 FSRC1=$(patsubst %.p90, %.f90, $(subst X, mld_$(ARITH), $(filter %.p90, $(SRC))))
 FSRC2=$(patsubst %.P90, %.F90, $(subst X, mld_$(ARITH), $(filter %.P90, $(SRC))))
