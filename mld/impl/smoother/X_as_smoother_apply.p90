@@ -1,6 +1,5 @@
 !  
 !   
-<<<<<<< HEAD
 !                             MLD2P4  version 2.1
 !    MultiLevel Domain Decomposition Parallel Preconditioners Package
 !               based on PSBLAS (Parallel Sparse BLAS version 3.5)
@@ -10,18 +9,6 @@
 !        Salvatore Filippone    Cranfield University, UK
 !        Pasqua D'Ambra         IAC-CNR, Naples, IT
 !        Daniela di Serafino    University of Campania "L. Vanvitelli", Caserta, IT
-=======
-!                             MLD2P4  version 2.0
-!    MultiLevel Domain Decomposition Parallel Preconditioners Package
-!               based on PSBLAS (Parallel Sparse BLAS version 3.3)
-!    
-!    (C) Copyright 2008, 2010, 2012, 2015
-!  
-!                        Salvatore Filippone  University of Rome Tor Vergata
-!                        Alfredo Buttari      CNRS-IRIT, Toulouse
-!                        Pasqua D'Ambra       ICAR-CNR, Naples
-!                        Daniela di Serafino  Second University of Naples
->>>>>>> 2b7d18d... template-mld-extaggr
 !   
 !    Redistribution and use in source and binary forms, with or without
 !    modification, are permitted provided that the following conditions
@@ -159,7 +146,7 @@ subroutine mld_@X@_as_smoother_apply(alpha,sm,x,beta,y,desc_data,trans,&
       if (info == 0) call sm%apply_restr(ty,trans_,aux,info)
       if (info == 0) call psb_spmm(-@XONE@,sm%nd,ty,@XONE@,ww,sm%desc_data,info,&
            & work=aux,trans=trans_)
-      call sm%sv%apply(@XONE@,ww,@XZERO@,ty,desc_data,trans_,aux,info,init='Y')             
+      call sm%sv%apply(@XONE@,ww,@XZERO@,ty,desc_data,trans_,aux,info,init='Y')      
 
     case('U')
       if (.not.present(initu)) then
