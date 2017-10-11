@@ -292,6 +292,7 @@ program mld_@X@example_ml
     write(*,'(" ")')
     write(*,'("Matrix: ",A)')mtrx_file
     write(*,'("Computed solution on ",i8," processors")')np
+    write(*,'("Krylov method             : ",a)') kmethod
     write(*,'("Iterations to convergence : ",i6)')iter
     write(*,'("Error estimate on exit    : ",es12.5)')err
     write(*,'("Time to build prec.       : ",es12.5)')tprec

@@ -219,7 +219,7 @@ program mld_@X@example_ml
   call x%zero()
   call psb_geasb(x,desc_A,info)
 
-  ! solve Ax=b with preconditioned CG
+  ! solve Ax=b with preconditioned Krylov method
 
   call psb_barrier(ictxt)
   t1 = psb_wtime()
@@ -250,6 +250,7 @@ program mld_@X@example_ml
     write(*,'(" ")')
     write(*,'("Matrix from PDE example")')
     write(*,'("Computed solution on ",i8," processors")')np
+    write(*,'("Krylov method             : ",a)') kmethod
     write(*,'("Iterations to convergence : ",i6)')iter
     write(*,'("Error estimate on exit    : ",es12.5)')err
     write(*,'("Time to build prec.       : ",es12.5)')tprec
