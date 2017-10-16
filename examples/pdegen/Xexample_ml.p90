@@ -146,7 +146,7 @@ program mld_@X@example_ml
 
   call psb_barrier(ictxt)
   t1 = psb_wtime()
-  call psb_gen_pde3d(ictxt,idim,a,b,x,desc_a,afmt,&
+  call mld_gen_pde3d(ictxt,idim,a,b,x,desc_a,afmt,&
        & a1,a2,a3,b1,b2,b3,c,g,info)  
   call psb_barrier(ictxt)
   t2 = psb_wtime() - t1
