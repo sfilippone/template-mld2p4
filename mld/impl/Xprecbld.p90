@@ -79,7 +79,6 @@ subroutine mld_@X@precbld(a,desc_a,prec,info,amold,vmold,imold)
   integer(psb_ipk_)      :: err,i,k,err_act, iszv, newsz
   integer(psb_ipk_)      :: ipv(mld_ifpsz_), val
   integer(psb_ipk_)      :: int_err(5)
-  type(mld_dml_parms) :: prm
   integer(psb_ipk_)   :: debug_level, debug_unit
   character(len=20)   :: name, ch_err
 

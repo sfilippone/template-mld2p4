@@ -176,7 +176,6 @@ module mld_@X@_inner_mod
     end subroutine mld_@X@_lev_aggrmat_asb
   end interface mld_lev_mat_asb
 
-
   abstract interface
     subroutine mld_@X@aggrmat_var_asb(a,desc_a,ilaggr,nlaggr,parms,ac,op_prol,op_restr,info)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_

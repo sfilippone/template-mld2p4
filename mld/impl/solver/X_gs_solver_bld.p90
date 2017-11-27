@@ -36,7 +36,6 @@
 !   
 !  
 subroutine mld_@X@_gs_solver_bld(a,desc_a,sv,info,b,amold,vmold,imold)
-
   use psb_base_mod
   use mld_@X@_gs_solver, mld_protect_name => mld_@X@_gs_solver_bld
 

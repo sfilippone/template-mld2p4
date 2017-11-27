@@ -36,7 +36,6 @@
 !   
 !  
 subroutine mld_@X@_bwgs_solver_bld(a,desc_a,sv,info,b,amold,vmold,imold)
-
   use psb_base_mod
   use mld_@X@_gs_solver, mld_protect_name => mld_@X@_bwgs_solver_bld
 
@@ -86,7 +85,6 @@ subroutine mld_@X@_bwgs_solver_bld(a,desc_a,sv,info,b,amold,vmold,imold)
     call psb_errpush(info,name)
     goto 9999       
   end if
-
 
   call sv%l%set_asb()
   call sv%l%trim()

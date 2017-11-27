@@ -217,11 +217,13 @@ subroutine mld_@X@_hierarchy_bld(a,desc_a,prec,info)
     allocate(tprecv(nplevs),stat=info)
     ! First all existing levels
     if (info == 0) tprecv(1)%parms = baseparms
-    if (info == 0) call restore_smoothers(tprecv(1),prec%precv(1)%sm,prec%precv(1)%sm2a,info)
+    if (info == 0) call restore_smoothers(tprecv(1),&
+         & prec%precv(1)%sm,prec%precv(1)%sm2a,info)
     if (info == 0) call move_alloc(prec%precv(1)%aggr,tprecv(1)%aggr)
     do i=2, min(iszv,nplevs) - 1
       if (info == 0) tprecv(i)%parms = medparms
-      if (info == 0) call restore_smoothers(tprecv(i),prec%precv(i)%sm,prec%precv(i)%sm2a,info)
+      if (info == 0) call restore_smoothers(tprecv(i),&
+           & prec%precv(i)%sm,prec%precv(i)%sm2a,info)
       if (info == 0) call move_alloc(prec%precv(i)%aggr,tprecv(i)%aggr)
     end do
     ! Further intermediates, if any
@@ -290,7 +292,6 @@ subroutine mld_@X@_hierarchy_bld(a,desc_a,prec,info)
       goto 9999
     endif
     if (i<iszv) call prec%precv(i)%aggr%update_level(prec%precv(i+1)%aggr,info)
-                
 
     if (debug_level >= psb_debug_outer_) &
          & write(debug_unit,*) me,' ',trim(name),&
@@ -355,8 +356,8 @@ subroutine mld_@X@_hierarchy_bld(a,desc_a,prec,info)
       prec%precv(newsz)%parms%aggr_thresh    =  athresh
       prec%precv(newsz)%parms%aggr_omega_val =  aomega 
       
-      if (info == 0) call restore_smoothers(prec%precv(newsz),coarse_sm,coarse_sm2,info)
-
+      if (info == 0) call restore_smoothers(prec%precv(newsz),&
+           & coarse_sm,coarse_sm2,info)
       if (newsz < i) then
         !
         ! We are going back and revisit a previous leve;
@@ -431,6 +432,8 @@ subroutine mld_@X@_hierarchy_bld(a,desc_a,prec,info)
   iszv = size(prec%precv)
 
   call prec%cmp_complexity()
+
+  call p%cmp_complexity()
 
   call p%cmp_complexity()
 

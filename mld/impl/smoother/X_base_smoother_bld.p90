@@ -36,7 +36,6 @@
 !   
 !  
 subroutine mld_@X@_base_smoother_bld(a,desc_a,sm,info,amold,vmold,imold)
-  
   use psb_base_mod
   use mld_@X@_base_smoother_mod, mld_protect_name =>  mld_@X@_base_smoother_bld
   Implicit None
