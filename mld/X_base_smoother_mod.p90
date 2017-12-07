@@ -92,6 +92,10 @@ module mld_@X@_base_smoother_mod
   !    check      -   Sanity checks.
   !    sizeof     -   Total memory occupation in bytes
   !    get_nzeros -   Number of nonzeros 
+  !    stringval  -   convert string to val for internal parms
+  !    get_fmt    -   short string descriptor
+  !    get_id     -   numeric id descriptro
+  !    get_wrksz  -   How many workspace vector does apply_vect need
   !
   !
   ! 
@@ -119,6 +123,7 @@ module mld_@X@_base_smoother_mod
     procedure, pass(sm) :: descr =>   mld_@X@_base_smoother_descr
     procedure, pass(sm) :: sizeof =>  @X@_base_smoother_sizeof
     procedure, pass(sm) :: get_nzeros => @X@_base_smoother_get_nzeros
+    procedure, pass(sm) :: get_wrksz => @X@_base_smoother_get_wrksize
     procedure, nopass   :: stringval => mld_stringval
     procedure, nopass   :: get_fmt   => @X@_base_smoother_get_fmt
     procedure, nopass   :: get_id    => @X@_base_smoother_get_id
@@ -127,7 +132,7 @@ module mld_@X@_base_smoother_mod
 
   private :: @X@_base_smoother_sizeof, @X@_base_smoother_get_fmt, &
        &  @X@_base_smoother_default, @X@_base_smoother_get_nzeros, &
-       & @X@_base_smoother_get_id
+       & @X@_base_smoother_get_id, @X@_base_smoother_get_wrksize
 
 
 
@@ -387,6 +392,16 @@ contains
     return
   end subroutine @X@_base_smoother_default
 
+  function @X@_base_smoother_get_wrksize(sm) result(val)
+    implicit none 
+    class(mld_@X@_base_smoother_type), intent(inout) :: sm
+    integer(psb_ipk_)  :: val
+
+    val = 0
+    if (allocated(sm%sv)) val = val + sm%sv%get_wrksz()
+    
+  end function @X@_base_smoother_get_wrksize
+  
   function @X@_base_smoother_get_fmt() result(val)
     implicit none 
     character(len=32)  :: val

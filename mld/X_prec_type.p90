@@ -80,12 +80,6 @@ module mld_@X@_prec_type
   !  order, with level 0 being the id of the coarsest level.
   !
   !
-
-  type mld_@X@mlprec_wrk_type
-    @TYPE@(@FKIND@), allocatable  :: tx(:), ty(:), x2l(:), y2l(:)
-    type(psb_@X@_vect_type)  :: vtx, vty, vx2l, vy2l
-    type(psb_@X@_vect_type), allocatable :: wv(:)
-  end type mld_@X@mlprec_wrk_type
   integer, parameter, private :: wv_size_=4
   
   type, extends(psb_@X@prec_type)        :: mld_@X@prec_type

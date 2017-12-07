@@ -91,6 +91,7 @@ module mld_@X@_as_smoother
     procedure, pass(sm) :: sizeof  => @X@_as_smoother_sizeof
     procedure, pass(sm) :: default => @X@_as_smoother_default
     procedure, pass(sm) :: get_nzeros => @X@_as_smoother_get_nzeros
+    procedure, pass(sm) :: get_wrksz => @X@_as_smoother_get_wrksize
     procedure, nopass   :: get_fmt    => @X@_as_smoother_get_fmt
     procedure, nopass   :: get_id     => @X@_as_smoother_get_id
   end type mld_@X@_as_smoother_type
@@ -98,7 +99,8 @@ module mld_@X@_as_smoother
   
   private :: @X@_as_smoother_descr,  @X@_as_smoother_sizeof, &
        &  @X@_as_smoother_default, @X@_as_smoother_get_nzeros, &
-       &  @X@_as_smoother_get_fmt, @X@_as_smoother_get_id
+       &  @X@_as_smoother_get_fmt, @X@_as_smoother_get_id, &
+       &  @X@_as_smoother_get_wrksize
 
   character(len=6), parameter, private :: &
        &  restrict_names(0:4)=(/'none ','halo ','     ','     ','     '/)
@@ -458,6 +460,16 @@ contains
 
   end subroutine @X@_as_smoother_descr
 
+  function @X@_as_smoother_get_wrksize(sm) result(val)
+    implicit none 
+    class(mld_@X@_as_smoother_type), intent(inout) :: sm
+    integer(psb_ipk_)  :: val
+
+    val = 3
+    if (allocated(sm%sv)) val = val + sm%sv%get_wrksz()
+    
+  end function @X@_as_smoother_get_wrksize
+  
   function @X@_as_smoother_get_fmt() result(val)
     implicit none 
     character(len=32)  :: val
