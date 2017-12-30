@@ -130,9 +130,10 @@ module mld_@X@_onelev_mod
     procedure, pass(wk) :: free       => @X@_wrk_free
     procedure, pass(wk) :: clone      => @X@_wrk_clone
     procedure, pass(wk) :: move_alloc => @X@_wrk_move_alloc
+    procedure, pass(wk) :: cnv        => @X@_wrk_cnv
   end type mld_@X@mlprec_wrk_type
   private :: @X@_wrk_alloc, @X@_wrk_free, &
-       & @X@_wrk_clone, @X@_wrk_move_alloc
+       & @X@_wrk_clone, @X@_wrk_move_alloc, @X@_wrk_cnv
   
   type mld_@X@_onelev_type
     class(mld_@X@_base_smoother_type), allocatable :: sm, sm2a
@@ -730,4 +731,30 @@ contains
         
   end subroutine @X@_wrk_move_alloc
 
+  subroutine @X@_wrk_cnv(wk,info,vmold)
+    use psb_base_mod
+    
+    Implicit None
+    
+    ! Arguments
+    class(mld_@X@mlprec_wrk_type), target, intent(inout) :: wk
+    integer(psb_ipk_), intent(out)                    :: info 
+    class(psb_@X@_base_vect_type), intent(in), optional  :: vmold
+    !
+    integer(psb_ipk_) :: i
+
+    info = psb_success_
+    if (present(vmold)) then
+      call wk%vtx%cnv(vmold)
+      call wk%vty%cnv(vmold)
+      call wk%vx2l%cnv(vmold)
+      call wk%vy2l%cnv(vmold)
+      if (allocated(wk%wv)) then
+        do i=1,size(wk%wv)
+          call wk%wv(i)%cnv(vmold)
+        end do
+      end if
+    end if
+  end subroutine @X@_wrk_cnv
+  
 end module mld_@X@_onelev_mod
