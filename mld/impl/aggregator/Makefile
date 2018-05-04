@@ -5,12 +5,10 @@ UTIL_MODS =
 
 MODULES=$(BASIC_MODS) $(UTIL_MODS)
 
-SRC=Xmlprec_bld.p90 Xmlprec_aply.p90 \
-    Xprecbld.p90 Xprecaply.p90 Xfile_prec_descr.p90 \
-    Xprecinit.P90 Xprecset.P90 Xcprecset.P90 \
-    X_dec_map_bld.p90 \
-    X_extprol_bld.p90 X_hierarchy_bld.p90 X_smoothers_bld.p90 \
-    X_lev_aggrmap_bld.p90 X_lev_aggrmat_asb.p90 
+SRC= Xaggrmat_biz_asb.p90 Xaggrmat_minnrg_asb.p90 Xaggrmat_nosmth_asb.p90 \
+    Xaggrmat_smth_asb.p90 X_base_aggregator_mat_asb.p90 X_base_aggregator_tprol.p90 \
+    X_dec_map_bld.p90 X_hyb_map_bld.p90 X_hybrid_aggregator_tprol.p90 X_map_to_tprol.p90\
+    X_symdec_aggregator_tprol.p90
 
 
 FSRC1=$(patsubst %.p90, %.f90, $(subst X, mld_$(ARITH), $(filter %.p90, $(SRC))))
@@ -28,16 +26,7 @@ CINCLUDES=-I.
 FINCLUDES=$(FMFLAG)$(LIBDIR) $(FMFLAG). $(FIFLAG).
 
 
-src: ssingle sdouble scomplex sdcompl aggrd leveld smootherd solverd
-
-aggrd:
-	cd aggregator && $(MAKE) src
-solverd:
-	cd solver && $(MAKE) src
-smootherd:
-	cd smoother && $(MAKE) src
-leveld:
-	cd level && $(MAKE) src
+src: ssingle sdouble scomplex sdcompl
 ssingle:
 	$(MAKE) bsrc ARITH=s
 sdouble:
@@ -66,19 +55,10 @@ lib: $(FOBJS)
 
 
 $(FSRC1): mld_$(ARITH)%.f90 : X%.p90
-	sed -f ../../$(ARITH).sed $< >$@
+	sed -f ../../../$(ARITH).sed $< >$@
 $(FSRC2): mld_$(ARITH)%.F90 : X%.P90 
-	sed -f ../../$(ARITH).sed $< >$@
+	sed -f ../../../$(ARITH).sed $< >$@
 
-aggrc:
-	cd aggregator && $(MAKE) clean
-levelc:
-	cd level && $(MAKE) clean
-smootherc:
-	cd smoother && $(MAKE) clean
-solverc:
-	cd solver && $(MAKE) clean
-clean:  levelc smootherc solverc aggrc
+clean:
 	/bin/rm -f *.f90 *.F90 *.o
-
 
