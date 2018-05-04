@@ -44,7 +44,7 @@
 !  The interfaces  of the user level routines are defined in mld_prec_mod.f90.
 !
 module mld_@X@_inner_mod
-!  use mld_@X@_prec_type, only : mld_@X@_prec_type
+
   use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, psb_i_base_vect_type, &
        & @FKIND@, psb_@X@_base_sparse_mat, psb_@X@_base_vect_type, psb_ipk_, &
        & psb_@X@_vect_type
