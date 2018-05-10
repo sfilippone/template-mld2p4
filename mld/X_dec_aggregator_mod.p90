@@ -38,9 +38,7 @@
 !
 !
 !  The aggregator object hosts the aggregation method for building
-!  the multilevel hierarchy. This version only differs from the
-!  basic decoupled aggregation algorithm because it works on (the
-!  pattern of)  A+A^T  instead of A. 
+!  the multilevel hierarchy. 
 !
 !    M. Brezina and P. Vanek, A black-box iterative solver based on a 
 !    two-level Schwarz method, Computing,  63 (1999), 233-263.
@@ -48,9 +46,9 @@
 !    PSBLAS-based parallel two-level Schwarz preconditioners, Appl. Num. Math.
 !    57 (2007), 1181-1196.
 !    
-module mld_@X@_symdec_aggregator_mod
+module mld_@X@_dec_aggregator_mod
 
-  use mld_@X@_dec_aggregator_mod
+  use mld_@X@_base_aggregator_mod
   !
   !   sm           -  class(mld_T_base_smoother_type), allocatable
   !                   The current level preconditioner (aka smoother).
@@ -91,37 +89,55 @@ module mld_@X@_symdec_aggregator_mod
   !    get_nzeros -   Number of nonzeros 
   !
   !
-  type, extends(mld_@X@_dec_aggregator_type) :: mld_@X@_symdec_aggregator_type
+  type, extends(mld_@X@_base_aggregator_type) :: mld_@X@_dec_aggregator_type
     
   contains
-    procedure, pass(ag) :: tprol        => mld_@X@_symdec_aggregator_build_tprol
-    procedure, nopass   :: fmt          => mld_@X@_symdec_aggregator_fmt
+    procedure, pass(ag) :: tprol        => mld_@X@_dec_aggregator_build_tprol
+    procedure, pass(ag) :: mat_asb      => mld_@X@_dec_aggregator_mat_asb
+    procedure, nopass   :: fmt          => mld_@X@_dec_aggregator_fmt
   end type mld_@X@_symdec_aggregator_type
 
 
   interface
-    subroutine  mld_@X@_symdec_aggregator_build_tprol(ag,parms,a,desc_a,ilaggr,nlaggr,op_prol,info)
-      import :: mld_@X@_symdec_aggregator_type, psb_desc_type, psb_@X@spmat_type, @FKIND@,  &
+    subroutine  mld_@X@_dec_aggregator_build_tprol(ag,parms,a,desc_a,ilaggr,nlaggr,op_prol,info)
+      import :: mld_@X@_dec_aggregator_type, psb_desc_type, psb_@X@spmat_type, @FKIND@,  &
            & psb_ipk_, psb_long_int_k_, mld_@RT@ml_parms
       implicit none
-      class(mld_@X@_symdec_aggregator_type), target, intent(inout) :: ag
+      class(mld_@X@_dec_aggregator_type), target, intent(inout) :: ag
       type(mld_@RT@ml_parms), intent(inout)  :: parms 
       type(psb_@X@spmat_type), intent(in)   :: a
       type(psb_desc_type), intent(in)     :: desc_a
       integer(psb_ipk_), allocatable, intent(out) :: ilaggr(:),nlaggr(:)
       type(psb_@X@spmat_type), intent(out)  :: op_prol
       integer(psb_ipk_), intent(out)      :: info
-    end subroutine mld_@X@_symdec_aggregator_build_tprol
+    end subroutine mld_@X@_dec_aggregator_build_tprol
   end interface
+
+  interface
+    subroutine  mld_@X@_dec_aggregator_mat_asb(ag,parms,a,desc_a,ilaggr,nlaggr,ac,&
+         & op_prol,op_restr,info)
+      import :: mld_@X@_dec_aggregator_type, psb_desc_type, psb_@X@spmat_type, @FKIND@,  &
+           & psb_ipk_, psb_long_int_k_, mld_@RT@ml_parms
+      implicit none
+      class(mld_@X@_dec_aggregator_type), target, intent(inout) :: ag
+      type(mld_@RT@ml_parms), intent(inout)   :: parms 
+      type(psb_@X@spmat_type), intent(in)    :: a
+      type(psb_desc_type), intent(in)      :: desc_a
+      integer(psb_ipk_), intent(inout)     :: ilaggr(:), nlaggr(:)
+      type(psb_@X@spmat_type), intent(inout)   :: op_prol
+      type(psb_@X@spmat_type), intent(out)   :: ac,op_restr
+      integer(psb_ipk_), intent(out)       :: info
+    end subroutine mld_@X@_dec_aggregator_mat_asb
+  end interface  
 
 
 contains
 
-  function mld_@X@_symdec_aggregator_fmt() result(val)
+  function mld_@X@_dec_aggregator_fmt() result(val)
     implicit none 
     character(len=32)  :: val
 
-    val = "Symmetric Decoupled aggregation"
-  end function mld_@X@_symdec_aggregator_fmt
+    val = "Decoupled aggregation"
+  end function mld_@X@_dec_aggregator_fmt
   
-end module mld_@X@_symdec_aggregator_mod
+end module mld_@X@_dec_aggregator_mod
