@@ -125,7 +125,7 @@ subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,op_p
 
   select case (aggr_type)
   case (mld_dec_aggr_)  
-    call mld_dec_map_bld(iorder,theta,a,desc_a,nlaggr,ilaggr,info)    
+    call mld_vmb_map_bld(iorder,theta,a,desc_a,nlaggr,ilaggr,info)    
 
   case (mld_sym_dec_aggr_)  
     nr = a%get_nrows()
@@ -140,7 +140,7 @@ subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,op_p
     call atmp%set_ncols(nr)
     if (info == psb_success_) call atrans%free()
     if (info == psb_success_) call atmp%cscnv(info,type='CSR')
-    if (info == psb_success_) call mld_dec_map_bld(iorder,theta,atmp,desc_a,nlaggr,ilaggr,info) 
+    if (info == psb_success_) call mld_vmb_map_bld(iorder,theta,atmp,desc_a,nlaggr,ilaggr,info) 
     if (info == psb_success_) call atmp%free()
 
   case default
@@ -153,7 +153,7 @@ subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,op_p
 
   if (info /= psb_success_) then 
     info=psb_err_internal_error_
-    call psb_errpush(info,name,a_err='dec_map_bld')
+    call psb_errpush(info,name,a_err='vmb_map_bld')
     goto 9999
   end if
 
