@@ -122,21 +122,6 @@ module mld_@X@_inner_mod
       integer(psb_ipk_), intent(out)      :: info
     end subroutine mld_@X@aggrmap_bld
   end interface mld_aggrmap_bld
-
-  abstract interface  
-    subroutine mld_@X@_map_bld(iorder,theta,a,desc_a,nlaggr,ilaggr,info)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
-      implicit none 
-      integer(psb_ipk_), intent(in)     :: iorder
-      type(psb_@X@spmat_type), intent(in) :: a
-      type(psb_desc_type), intent(in)    :: desc_a
-      real(@FKIND@), intent(in)         :: theta
-      integer(psb_ipk_), allocatable, intent(out)  :: ilaggr(:),nlaggr(:)
-      integer(psb_ipk_), intent(out)               :: info
-    end subroutine mld_@X@_map_bld
-  end interface
-
-  procedure(mld_@X@_map_bld) ::  mld_@X@_vmb_map_bld, mld_@X@_hyb_map_bld
   
   interface mld_map_to_tprol
     subroutine mld_@X@_map_to_tprol(desc_a,ilaggr,nlaggr,op_prol,info)
