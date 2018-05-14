@@ -7,7 +7,7 @@ MODULES=$(BASIC_MODS) $(UTIL_MODS)
 
 SRC= Xaggrmat_biz_asb.p90 Xaggrmat_minnrg_asb.p90 Xaggrmat_nosmth_asb.p90 \
     X_dec_aggregator_mat_asb.p90 X_dec_aggregator_tprol.p90 \
-    X_vmb_map_bld.p90 X_hyb_map_bld.p90 X_hybrid_aggregator_tprol.p90 X_map_to_tprol.p90\
+    X_soc1_map_bld.p90 X_soc2_map_bld.p90 X_map_to_tprol.p90\
     X_symdec_aggregator_tprol.p90
 
 
