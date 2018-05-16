@@ -321,7 +321,7 @@ module mld_@X@_onelev_mod
   interface 
     subroutine mld_@X@_base_onelev_setag(lv,val,info,pos)
       import :: @FKIND@, mld_@X@_onelev_type, mld_@X@_base_aggregator_type, &
-           & psb_ipk_, psb_long_int_k_, psb_desc_type
+           & psb_ipk_, psb_epk_, psb_desc_type
       Implicit None
       
       ! Arguments
