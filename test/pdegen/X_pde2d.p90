@@ -1,6 +1,6 @@
 ! 
 !   
-!                             MLD2P4  version 2.1
+!                             MLD2P4  version 2.2
 !    MultiLevel Domain Decomposition Parallel Preconditioners Package
 !               based on PSBLAS (Parallel Sparse BLAS version 3.5)
 !    
@@ -92,20 +92,30 @@ contains
 
   !
   ! functions parametrizing the differential equation 
-  !  
+  !
+
+  !
+  ! Note: b1 and b2 are the coefficients of the first
+  ! derivative of the unknown function. The default
+  ! we apply here is to have them zero, so that the resulting
+  ! matrix is symmetric/hermitian and suitable for
+  ! testing with CG and FCG.
+  ! When testing methods for non-hermitian matrices you can
+  ! change the B1/B2 functions to e.g. @XONE@/sqrt((2*@XONE@))
+  !
   function b1(x,y)
     use psb_base_mod, only : @FKIND@, @XONE@, @XZERO@
     implicit none 
     @TYPE@(@FKIND@) :: b1
     @TYPE@(@FKIND@), intent(in) :: x,y
-    b1=@XONE@/sqrt((2*@XONE@))
+    b1=@XZERO@
   end function b1
   function b2(x,y)
     use psb_base_mod, only : @FKIND@, @XONE@, @XZERO@
     implicit none 
     @TYPE@(@FKIND@) ::  b2
     @TYPE@(@FKIND@), intent(in) :: x,y
-    b2=@XONE@/sqrt((2*@XONE@))
+    b2=@XZERO@
   end function b2
   function c(x,y)
     use psb_base_mod, only : @FKIND@, @XONE@, @XZERO@
