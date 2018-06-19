@@ -8,7 +8,7 @@ MODULES=$(BASIC_MODS) $(UTIL_MODS)
 SRC=Xmlprec_bld.p90 Xmlprec_aply.p90 \
     Xprecbld.p90 Xprecaply.p90 Xfile_prec_descr.p90 \
     Xprecinit.P90 Xprecset.P90 Xcprecset.P90 \
-    X_extprol_bld.p90 X_hierarchy_bld.p90 X_smoothers_bld.p90 
+    X_extprol_bld.P90 X_hierarchy_bld.p90 X_smoothers_bld.p90 
 
 FSRC1=$(patsubst %.p90, %.f90, $(subst X, mld_$(ARITH), $(filter %.p90, $(SRC))))
 FSRC2=$(patsubst %.P90, %.F90, $(subst X, mld_$(ARITH), $(filter %.P90, $(SRC))))
