@@ -84,8 +84,8 @@ subroutine  mld_@X@_symdec_aggregator_build_tprol(ag,parms,a,desc_a,ilaggr,nlagg
   type(mld_@RT@ml_parms), intent(inout)  :: parms 
   type(psb_@X@spmat_type), intent(in)   :: a
   type(psb_desc_type), intent(in)     :: desc_a
-  integer(psb_ipk_), allocatable, intent(out) :: ilaggr(:),nlaggr(:)
-  type(psb_@X@spmat_type), intent(out)  :: op_prol
+  integer(psb_lpk_), allocatable, intent(out) :: ilaggr(:),nlaggr(:)
+  type(psb_@LX@spmat_type), intent(out)  :: op_prol
   integer(psb_ipk_), intent(out)      :: info
 
   ! Local variables
@@ -93,7 +93,7 @@ subroutine  mld_@X@_symdec_aggregator_build_tprol(ag,parms,a,desc_a,ilaggr,nlagg
   character(len=20)           :: name
   integer(psb_mpk_)           :: ictxt, np, me
   integer(psb_ipk_)           :: err_act
-  integer(psb_ipk_)           :: ntaggr, nr
+  integer(psb_lpk_)           :: ntaggr, nr
   integer(psb_ipk_)           :: debug_level, debug_unit
 
   name='mld_@X@_symdec_aggregator_tprol'
