@@ -124,18 +124,15 @@ subroutine mld_@X@aggrmat_asb(a,desc_a,ilaggr,nlaggr,parms,ac,op_prol,op_restr,i
   implicit none
 
 ! Arguments
-  type(psb_@X@spmat_type), intent(in)              :: a
-  type(psb_desc_type), intent(in)                  :: desc_a
-  integer(psb_ipk_), intent(inout)                 :: ilaggr(:), nlaggr(:)
-  type(mld_@RT@ml_parms), intent(inout)         :: parms 
-  type(psb_@X@spmat_type), intent(inout)           :: ac, op_prol,op_restr
-  integer(psb_ipk_), intent(out)                   :: info
+  type(psb_@X@spmat_type), intent(in)      :: a
+  type(psb_desc_type), intent(in)          :: desc_a
+  integer(psb_lpk_), intent(inout)         :: ilaggr(:), nlaggr(:)
+  type(mld_@RT@ml_parms), intent(inout)    :: parms 
+  type(psb_@LX@spmat_type), intent(inout)  :: ac, op_prol,op_restr
+  integer(psb_ipk_), intent(out)           :: info
 
 ! Local variables
-  type(psb_@X@_coo_sparse_mat) :: acoo, bcoo
-  type(psb_@X@_csr_sparse_mat) :: acsr1
-  integer(psb_ipk_)            :: nzl,ntaggr, err_act
-  integer(psb_ipk_)            :: debug_level, debug_unit
+  integer(psb_ipk_)            :: debug_level, debug_unit, err_act
   integer(psb_ipk_)            :: ictxt,np,me
   character(len=20) :: name
 

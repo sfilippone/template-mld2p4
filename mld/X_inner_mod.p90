@@ -47,7 +47,7 @@ module mld_@X@_inner_mod
 
   use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, psb_i_base_vect_type, &
        & @FKIND@, psb_@X@_base_sparse_mat, psb_@X@_base_vect_type, psb_ipk_, &
-       & psb_@X@_vect_type
+       & psb_@X@_vect_type, psb_lpk_, psb_@LX@spmat_type
   use mld_@X@_prec_type, only : mld_@X@prec_type, mld_@RT@ml_parms, &
        & mld_@X@_onelev_type, mld_@X@mlprec_wrk_type
 
@@ -99,26 +99,26 @@ module mld_@X@_inner_mod
  
   interface mld_aggrmap_bld
     subroutine mld_@X@_lev_aggrmap_bld(p,a,desc_a,ilaggr,nlaggr,op_prol,info)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
+      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_, psb_lpk_, psb_@LX@spmat_type
       import :: mld_@X@_onelev_type
       implicit none 
       type(mld_@X@_onelev_type), intent(inout), target :: p
       type(psb_@X@spmat_type), intent(in) :: a
       type(psb_desc_type), intent(in)     :: desc_a
-      integer(psb_ipk_), intent(out) :: ilaggr(:),nlaggr(:)
-      type(psb_@X@spmat_type), intent(out)  :: op_prol
+      integer(psb_lpk_), intent(out) :: ilaggr(:),nlaggr(:)
+      type(psb_@LX@spmat_type), intent(out)  :: op_prol
       integer(psb_ipk_), intent(out)      :: info
     end subroutine mld_@X@_lev_aggrmap_bld
     subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,op_prol,info)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
+      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_, psb_lpk_, psb_@LX@spmat_type
       implicit none 
       integer(psb_ipk_), intent(in)     :: iorder
       integer(psb_ipk_), intent(in)       :: aggr_type
       real(@FKIND@), intent(in)           :: theta
       type(psb_@X@spmat_type), intent(in) :: a
       type(psb_desc_type), intent(in)     :: desc_a
-      integer(psb_ipk_), allocatable, intent(out) :: ilaggr(:),nlaggr(:)
-      type(psb_@X@spmat_type), intent(out)  :: op_prol        
+      integer(psb_lpk_), allocatable, intent(out) :: ilaggr(:),nlaggr(:)
+      type(psb_@LX@spmat_type), intent(out)  :: op_prol        
       integer(psb_ipk_), intent(out)      :: info
     end subroutine mld_@X@aggrmap_bld
   end interface mld_aggrmap_bld
@@ -137,42 +137,42 @@ module mld_@X@_inner_mod
   
   interface mld_lev_mat_asb
     subroutine mld_@X@_lev_aggrmat_asb(p,a,desc_a,ilaggr,nlaggr,op_prol,info)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
+      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_, psb_lpk_, psb_@LX@spmat_type
       import :: mld_@X@_onelev_type
       implicit none 
       type(mld_@X@_onelev_type), intent(inout), target :: p
       type(psb_@X@spmat_type), intent(in) :: a
       type(psb_desc_type), intent(in)     :: desc_a
-      integer(psb_ipk_), intent(inout) :: ilaggr(:),nlaggr(:)
-      type(psb_@X@spmat_type), intent(inout)  :: op_prol
+      integer(psb_lpk_), intent(inout) :: ilaggr(:),nlaggr(:)
+      type(psb_@LX@spmat_type), intent(inout)  :: op_prol
       integer(psb_ipk_), intent(out)      :: info
     end subroutine mld_@X@_lev_aggrmat_asb
   end interface mld_lev_mat_asb
 
   interface mld_aggrmat_asb
     subroutine mld_@X@aggrmat_asb(a,desc_a,ilaggr,nlaggr,parms,ac,op_prol,op_restr,info)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
+      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_, psb_lpk_, psb_@LX@spmat_type
       import :: mld_@RT@ml_parms
       implicit none 
       type(psb_@X@spmat_type), intent(in)              :: a
       type(psb_desc_type), intent(in)                  :: desc_a
-      integer(psb_ipk_), intent(inout)                 :: ilaggr(:), nlaggr(:)
+      integer(psb_lpk_), intent(inout)                 :: ilaggr(:), nlaggr(:)
       type(mld_@RT@ml_parms), intent(inout)         :: parms 
-      type(psb_@X@spmat_type), intent(out)          :: ac,op_prol,op_restr
+      type(psb_@LX@spmat_type), intent(out)          :: ac,op_prol,op_restr
       integer(psb_ipk_), intent(out)                   :: info
     end subroutine mld_@X@aggrmat_asb
   end interface mld_aggrmat_asb
 
   abstract interface
     subroutine mld_@X@aggrmat_var_asb(a,desc_a,ilaggr,nlaggr,parms,ac,op_prol,op_restr,info)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
+      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_, psb_lpk_, psb_@LX@spmat_type
       import ::  mld_@X@_onelev_type, mld_@RT@ml_parms
       implicit none 
       type(psb_@X@spmat_type), intent(in)           :: a
       type(psb_desc_type), intent(in)               :: desc_a
-      integer(psb_ipk_), intent(inout)              :: ilaggr(:), nlaggr(:)
+      integer(psb_lpk_), intent(inout)              :: ilaggr(:), nlaggr(:)
       type(mld_@RT@ml_parms), intent(inout)         :: parms 
-      type(psb_@X@spmat_type), intent(out)          :: ac,op_prol,op_restr
+      type(psb_@LX@spmat_type), intent(out)          :: ac,op_prol,op_restr
       integer(psb_ipk_), intent(out)                :: info
     end subroutine mld_@X@aggrmat_var_asb
   end interface
