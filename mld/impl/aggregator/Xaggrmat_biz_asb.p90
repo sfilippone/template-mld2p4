@@ -90,7 +90,7 @@ subroutine mld_@X@aggrmat_biz_asb(a,desc_a,ilaggr,nlaggr,parms,ac,op_prol,op_res
   ! Arguments
   type(psb_@X@spmat_type), intent(in)             :: a
   type(psb_desc_type), intent(in)               :: desc_a
-  integer(psb_ipk_), intent(inout)                        :: ilaggr(:), nlaggr(:)
+  integer(psb_lpk_), intent(inout)                        :: ilaggr(:), nlaggr(:)
   type(mld_@RT@ml_parms), intent(inout)             :: parms 
   type(psb_@X@spmat_type), intent(inout)           :: op_prol
   type(psb_@X@spmat_type), intent(out)             :: ac,op_restr
