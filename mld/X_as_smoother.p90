@@ -252,7 +252,7 @@ module mld_@X@_as_smoother
   end interface
   
   interface 
-    subroutine mld_@X@_as_smoother_cseti(sm,what,val,info)
+    subroutine mld_@X@_as_smoother_cseti(sm,what,val,info,idx)
       import :: psb_@X@spmat_type, psb_@X@_vect_type, psb_@X@_base_vect_type, &
            & @FKIND@, mld_@X@_as_smoother_type, psb_long_int_k_, psb_desc_type, psb_ipk_
       implicit none 
@@ -260,11 +260,12 @@ module mld_@X@_as_smoother
       character(len=*), intent(in)                   :: what 
       integer(psb_ipk_), intent(in)                  :: val
       integer(psb_ipk_), intent(out)                 :: info
+      integer(psb_ipk_), intent(in), optional        :: idx
     end subroutine mld_@X@_as_smoother_cseti
   end interface
   
   interface 
-    subroutine mld_@X@_as_smoother_csetc(sm,what,val,info)
+    subroutine mld_@X@_as_smoother_csetc(sm,what,val,info,idx)
       import :: psb_@X@spmat_type, psb_@X@_vect_type, psb_@X@_base_vect_type, &
            & @FKIND@, mld_@X@_as_smoother_type, psb_long_int_k_, psb_desc_type, psb_ipk_
       implicit none 
@@ -272,6 +273,7 @@ module mld_@X@_as_smoother
       character(len=*), intent(in)                   :: what 
       character(len=*), intent(in)                   :: val
       integer(psb_ipk_), intent(out)                 :: info
+      integer(psb_ipk_), intent(in), optional        :: idx
     end subroutine mld_@X@_as_smoother_csetc
   end interface
   
