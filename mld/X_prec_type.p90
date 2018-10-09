@@ -236,13 +236,13 @@ module mld_@X@_prec_type
       integer(psb_ipk_), optional, intent(in)     :: ilev,ilmax
       character(len=*), optional, intent(in)      :: pos
     end subroutine mld_@X@precsetsv
-    subroutine mld_@X@precsetag(prec,val,info,ilev,pos)
+    subroutine mld_@X@precsetag(prec,val,info,ilev,ilmax,pos)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
            & mld_@X@prec_type, mld_@X@_base_aggregator_type, psb_ipk_
       class(mld_@X@prec_type), intent(inout)      :: prec
       class(mld_@X@_base_aggregator_type), intent(in) :: val
       integer(psb_ipk_), intent(out)              :: info
-      integer(psb_ipk_), optional, intent(in)     :: ilev
+      integer(psb_ipk_), optional, intent(in)     :: ilev,ilmax
       character(len=*), optional, intent(in)      :: pos
     end subroutine mld_@X@precsetag
     subroutine mld_@X@cprecseti(prec,what,val,info,ilev,ilmax,pos,idx)
