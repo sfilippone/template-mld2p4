@@ -85,7 +85,7 @@ module mld_@X@_prec_type
   integer, parameter, private :: wv_size_=4
   
   type, extends(psb_@X@prec_type)        :: mld_@X@prec_type
-    integer(psb_ipk_)                  :: ictxt
+    ! integer(psb_ipk_)                  :: ictxt ! Now it's in the PSBLAS prec. 
     !
     ! Aggregation defaults:
     !
@@ -96,6 +96,7 @@ module mld_@X@_prec_type
     ! 3. min_cr_ratio   = 1.5     
     @RTYPE@(@FKIND@)                     :: min_cr_ratio   = 1.5_@FKIND@
     @RTYPE@(@FKIND@)                     :: op_complexity  = @RZERO@
+    @RTYPE@(@FKIND@)                     :: avg_cr         = @RZERO@
     !
     ! Number of outer sweeps. Sometimes  2 V-cycles may be better than 1 W-cycle. 
     !
@@ -123,20 +124,18 @@ module mld_@X@_prec_type
     procedure, pass(prec)               :: free_wrk       => mld_@X@_free_wrk
     procedure, pass(prec)               :: get_complexity => mld_@X@_get_compl
     procedure, pass(prec)               :: cmp_complexity => mld_@X@_cmp_compl
+    procedure, pass(prec)               :: get_avg_cr => mld_@X@_get_avg_cr
+    procedure, pass(prec)               :: cmp_avg_cr => mld_@X@_cmp_avg_cr
     procedure, pass(prec)               :: get_nlevs  => mld_@X@_get_nlevs
     procedure, pass(prec)               :: get_nzeros => mld_@X@_get_nzeros
     procedure, pass(prec)               :: sizeof => mld_@X@prec_sizeof
     procedure, pass(prec)               :: setsm  => mld_@X@precsetsm
     procedure, pass(prec)               :: setsv  => mld_@X@precsetsv
     procedure, pass(prec)               :: setag  => mld_@X@precsetag
-    procedure, pass(prec)               :: seti   => mld_@X@precseti
-    procedure, pass(prec)               :: setc   => mld_@X@precsetc
-    procedure, pass(prec)               :: setr   => mld_@X@precsetr
     procedure, pass(prec)               :: cseti  => mld_@X@cprecseti
     procedure, pass(prec)               :: csetc  => mld_@X@cprecsetc
     procedure, pass(prec)               :: csetr  => mld_@X@cprecsetr
-    generic, public                     :: set => seti, setc, setr, & 
-         &       cseti, csetc, csetr, setsm, setsv, setag 
+    generic, public                     :: set => cseti, csetc, csetr, setsm, setsv, setag 
     procedure, pass(prec)               :: get_smoother => mld_@X@_get_smootherp
     procedure, pass(prec)               :: get_solver   => mld_@X@_get_solverp
     procedure, pass(prec)               :: move_alloc   => @X@_prec_move_alloc
@@ -148,7 +147,8 @@ module mld_@X@_prec_type
   end type mld_@X@prec_type
 
   private :: mld_@X@_dump, mld_@X@_get_compl,  mld_@X@_cmp_compl,&
-       &  mld_@X@_get_nzeros, mld_@X@_get_nlevs, @X@_prec_move_alloc
+       & mld_@X@_get_avg_cr,  mld_@X@_cmp_avg_cr,&
+       & mld_@X@_get_nzeros, mld_@X@_get_nlevs, @X@_prec_move_alloc
 
 
   !
@@ -237,81 +237,52 @@ module mld_@X@_prec_type
       integer(psb_ipk_), optional, intent(in)     :: ilev,ilmax
       character(len=*), optional, intent(in)      :: pos
     end subroutine mld_@X@precsetsv
-    subroutine mld_@X@precsetag(prec,val,info,ilev,pos)
+    subroutine mld_@X@precsetag(prec,val,info,ilev,ilmax,pos)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
            & mld_@X@prec_type, mld_@X@_base_aggregator_type, psb_ipk_
       class(mld_@X@prec_type), intent(inout)      :: prec
       class(mld_@X@_base_aggregator_type), intent(in) :: val
       integer(psb_ipk_), intent(out)              :: info
-      integer(psb_ipk_), optional, intent(in)     :: ilev
+      integer(psb_ipk_), optional, intent(in)     :: ilev,ilmax
       character(len=*), optional, intent(in)      :: pos
     end subroutine mld_@X@precsetag
-    subroutine mld_@X@precseti(prec,what,val,info,ilev,ilmax,pos)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
-           & mld_@X@prec_type, psb_ipk_
-      class(mld_@X@prec_type), intent(inout)   :: prec
-      integer(psb_ipk_), intent(in)            :: what 
-      integer(psb_ipk_), intent(in)            :: val
-      integer(psb_ipk_), intent(out)           :: info
-      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax
-      character(len=*), optional, intent(in)      :: pos
-    end subroutine mld_@X@precseti
-    subroutine mld_@X@precsetr(prec,what,val,info,ilev,ilmax,pos)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
-           & mld_@X@prec_type, psb_ipk_
-      class(mld_@X@prec_type), intent(inout)   :: prec
-      integer(psb_ipk_), intent(in)            :: what 
-      @RTYPE@(@FKIND@), intent(in)                :: val
-      integer(psb_ipk_), intent(out)           :: info
-      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax
-      character(len=*), optional, intent(in)      :: pos
-    end subroutine mld_@X@precsetr
-    subroutine mld_@X@precsetc(prec,what,string,info,ilev,ilmax,pos)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
-           & mld_@X@prec_type, psb_ipk_
-      class(mld_@X@prec_type), intent(inout)   :: prec
-      integer(psb_ipk_), intent(in)            :: what 
-      character(len=*), intent(in)             :: string
-      integer(psb_ipk_), intent(out)           :: info
-      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax
-      character(len=*), optional, intent(in)      :: pos
-    end subroutine mld_@X@precsetc
-    subroutine mld_@X@cprecseti(prec,what,val,info,ilev,ilmax,pos)
+    subroutine mld_@X@cprecseti(prec,what,val,info,ilev,ilmax,pos,idx)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
            & mld_@X@prec_type, psb_ipk_
       class(mld_@X@prec_type), intent(inout)   :: prec
       character(len=*), intent(in)             :: what 
       integer(psb_ipk_), intent(in)            :: val
       integer(psb_ipk_), intent(out)           :: info
-      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax
+      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax,idx
       character(len=*), optional, intent(in)      :: pos
     end subroutine mld_@X@cprecseti
-    subroutine mld_@X@cprecsetr(prec,what,val,info,ilev,ilmax,pos)
+    subroutine mld_@X@cprecsetr(prec,what,val,info,ilev,ilmax,pos,idx)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
            & mld_@X@prec_type, psb_ipk_
       class(mld_@X@prec_type), intent(inout)   :: prec
       character(len=*), intent(in)             :: what 
       @RTYPE@(@FKIND@), intent(in)                :: val
       integer(psb_ipk_), intent(out)           :: info
-      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax
+      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax,idx
       character(len=*), optional, intent(in)      :: pos
     end subroutine mld_@X@cprecsetr
-    subroutine mld_@X@cprecsetc(prec,what,string,info,ilev,ilmax,pos)
+    subroutine mld_@X@cprecsetc(prec,what,string,info,ilev,ilmax,pos,idx)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
            & mld_@X@prec_type, psb_ipk_
       class(mld_@X@prec_type), intent(inout)   :: prec
       character(len=*), intent(in)             :: what 
       character(len=*), intent(in)             :: string
       integer(psb_ipk_), intent(out)           :: info
-      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax
+      integer(psb_ipk_), optional, intent(in)  :: ilev,ilmax,idx
       character(len=*), optional, intent(in)      :: pos
     end subroutine mld_@X@cprecsetc
   end interface
 
   interface mld_precinit
-    subroutine mld_@X@precinit(prec,ptype,info)
+    subroutine mld_@X@precinit(ictxt,prec,ptype,info)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, &
            & mld_@X@prec_type, psb_ipk_
+      integer(psb_ipk_), intent(in)            :: ictxt
       class(mld_@X@prec_type), intent(inout)    :: prec
       character(len=*), intent(in)             :: ptype
       integer(psb_ipk_), intent(out)           :: info
@@ -510,6 +481,43 @@ contains
     end if
     prec%op_complexity = num/den
   end subroutine mld_@X@_cmp_compl
+  
+  !
+  ! Average coarsening ratio
+  !
+  
+  function mld_@X@_get_avg_cr(prec) result(val)
+    implicit none 
+    class(mld_@X@prec_type), intent(in) :: prec
+    @TYPE@(@FKIND@)  :: val
+    
+    val = prec%avg_cr
+
+  end function mld_@X@_get_avg_cr
+  
+  subroutine mld_@X@_cmp_avg_cr(prec) 
+
+    implicit none 
+    class(mld_@X@prec_type), intent(inout) :: prec
+    
+    @RTYPE@(@FKIND@)  :: avgcr
+    integer(psb_ipk_) :: ictxt 
+    integer(psb_ipk_) :: il, nl, iam, np
+
+
+    avgcr = @RZERO@
+    ictxt = prec%ictxt
+    call psb_info(ictxt,iam,np)
+    if (allocated(prec%precv)) then
+      nl = size(prec%precv)
+      do il=2,nl
+        avgcr = avgcr + max(@RZERO@,prec%precv(il)%szratio)
+      end do
+      avgcr = avgcr / (nl-1)      
+    end if
+    call psb_sum(ictxt,avgcr) 
+    prec%avg_cr = avgcr/np
+  end subroutine mld_@X@_cmp_avg_cr
   
   !
   ! Subroutines: mld_Tprec_free
@@ -779,6 +787,7 @@ contains
       pout%min_cr_ratio     = prec%min_cr_ratio
       pout%outer_sweeps     = prec%outer_sweeps
       pout%op_complexity    = prec%op_complexity
+      pout%avg_cr           = prec%avg_cr
       if (allocated(prec%precv)) then 
         ln = size(prec%precv) 
         allocate(pout%precv(ln),stat=info)
