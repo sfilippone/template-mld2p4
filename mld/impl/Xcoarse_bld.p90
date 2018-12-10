@@ -79,13 +79,15 @@ subroutine mld_@X@coarse_bld(a,desc_a,p,info)
 
   ! Local variables
   character(len=20)                :: name
-  integer(psb_mpik_)               :: ictxt, np, me
+  integer(psb_mpk_)               :: ictxt, np, me
   integer(psb_ipk_)                :: err_act
   integer(psb_ipk_), allocatable   :: ilaggr(:), nlaggr(:)
 
   name='mld_@X@coarse_bld'
-  if (psb_get_errstatus().ne.0) return 
   call psb_erractionsave(err_act)
+  if (psb_errstatus_fatal()) then
+    info = psb_err_internal_error_; goto 9999
+  end if
   info = psb_success_
   ictxt = desc_a%get_context()
   call psb_info(ictxt,me,np)

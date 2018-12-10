@@ -91,9 +91,11 @@ module mld_@X@_gs_solver
   end type mld_@X@_bwgs_solver_type
 
 
-  private :: @X@_gs_solver_free,   &
+  private :: @X@_gs_solver_bld, @X@_gs_solver_apply, &
+       &  @X@_gs_solver_free,   &
        &  @X@_gs_solver_descr,  @X@_gs_solver_sizeof, &
-       &  @X@_gs_solver_default, @X@_gs_solver_get_nzeros, &
+       &  @X@_gs_solver_default, @X@_gs_solver_dmp, &
+       &  @X@_gs_solver_apply_vect, @X@_gs_solver_get_nzeros, &
        &  @X@_gs_solver_get_fmt, @X@_gs_solver_check,&
        &  @X@_gs_solver_is_iterative, &
        &  @X@_bwgs_solver_get_fmt, @X@_bwgs_solver_descr, &
@@ -447,7 +449,7 @@ contains
     implicit none 
     ! Arguments
     class(mld_@X@_gs_solver_type), intent(in) :: sv
-    integer(psb_long_int_k_) :: val
+    integer(psb_epk_) :: val
     integer(psb_ipk_)        :: i
     
     val = 0 
@@ -462,10 +464,10 @@ contains
     implicit none 
     ! Arguments
     class(mld_@X@_gs_solver_type), intent(in) :: sv
-    integer(psb_long_int_k_) :: val
+    integer(psb_epk_) :: val
     integer(psb_ipk_)        :: i
 
-    val = psb_sizeof_int 
+    val = psb_sizeof_ip 
     val = val + sv%l%sizeof()
     val = val + sv%u%sizeof()
 

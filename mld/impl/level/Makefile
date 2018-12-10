@@ -1,4 +1,5 @@
-#include ../../Make.inc
+TOP=../../..
+include $(TOP)/Make.inc
 
 BASIC_MODS=
 UTIL_MODS =
@@ -52,6 +53,9 @@ dcompl:
 bsrc: $(FSRC)
 
 lib: $(FOBJS)
+
+cpy: 
+	($(TOP)/cpy.sh $(TOP) $(TARGET)/mlprec/impl/level *.f90 *.F90)
 
 
 
