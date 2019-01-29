@@ -1,4 +1,6 @@
-#include ../../Make.inc
+TOP=../..
+include $(TOP)/Make.inc
+
 
 BASIC_MODS=
 UTIL_MODS =
@@ -61,6 +63,12 @@ bsrc: $(FSRC)
 
 lib: $(FOBJS)
 
+cpy: 
+	($(TOP)/cpy.sh $(TOP) $(TARGET)/mlprec/impl *.f90 *.F90)
+	cd aggregator && $(MAKE) cpy
+	cd level && $(MAKE) cpy
+	cd smoother && $(MAKE) cpy
+	cd solver && $(MAKE) cpy
 
 
 $(FSRC1): mld_$(ARITH)%.f90 : X%.p90

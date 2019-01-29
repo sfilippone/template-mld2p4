@@ -1,4 +1,5 @@
-#include ../../Make.inc
+TOP=..
+include $(TOP)/Make.inc
 
 BASIC_MODS=
 UTIL_MODS =
@@ -63,13 +64,10 @@ bsrc: $(FSRC)
 
 lib: $(FOBJS)
 
-
-X_prec_type.p90: X_onelev_mod.p90
-	touch $@
-X_onelev_mod.p90: X_base_smoother_mod.p90
-	touch $@
-X_base_smoother_mod.p90: X_base_solver_mod.p90
-	touch $@
+cpy: 
+	$(TOP)/cpy.sh $(TOP) $(TARGET)/examples *.f90 *.F90
+	cd fileread && $(MAKE) cpy
+	cd pdegen && $(MAKE) cpy	
 
 
 $(FSRC1): mld_$(ARITH)%.f90 : X%.p90

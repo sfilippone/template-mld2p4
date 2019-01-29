@@ -1,5 +1,5 @@
 TOP=../..
-#include ../../Make.inc
+include $(TOP)/Make.inc
 
 BASIC_MODS=
 UTIL_MODS =
@@ -49,6 +49,8 @@ bsrc: $(FSRC)
 
 lib: $(FOBJS)
 
+cpy: 
+	($(TOP)/cpy.sh $(TOP) $(TARGET)/tests/pdegen *.f90 *.F90)
 
 
 $(FSRC1): mld_$(ARITH)%.f90 : X%.p90

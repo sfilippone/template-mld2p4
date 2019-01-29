@@ -1,4 +1,5 @@
-#include ../../Make.inc
+TOP=../../..
+include $(TOP)/Make.inc
 
 BASIC_MODS=
 UTIL_MODS =
@@ -20,8 +21,6 @@ FOBJS2=$(FSRC2:.F90=.o)
 FOBJS=$(FOBJS1) $(FOBJS2)
 
 LIBMOD=
-# OBJS= $(SFOBJS) $(DFOBJS) $(CFOBJS) $(ZFOBJS)
-# SRCS= $(SFSRC) $(DFSRC) $(CFSRC) $(ZFSRC)
 LIBDIR=..
 CINCLUDES=-I.
 FINCLUDES=$(FMFLAG)$(LIBDIR) $(FMFLAG). $(FIFLAG).
@@ -52,6 +51,9 @@ dcompl:
 bsrc: $(FSRC)
 
 lib: $(FOBJS)
+
+cpy: 
+	($(TOP)/cpy.sh $(TOP) $(TARGET)/mlprec/impl/level *.f90 *.F90)
 
 
 

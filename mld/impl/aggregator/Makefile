@@ -1,4 +1,6 @@
-#include ../../Make.inc
+TOP=../../..
+include $(TOP)/Make.inc
+
 
 BASIC_MODS=
 UTIL_MODS =
@@ -46,6 +48,9 @@ complex:
 	$(MAKE) lib ARITH=c
 dcompl:
 	$(MAKE) lib ARITH=z
+
+cpy: 
+	($(TOP)/cpy.sh $(TOP) $(TARGET)/mlprec/impl/aggregator *.f90 *.F90)
 
 
 bsrc: $(FSRC)
