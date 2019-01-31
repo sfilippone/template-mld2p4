@@ -20,8 +20,6 @@ FOBJS2=$(FSRC2:.F90=.o)
 FOBJS=$(FOBJS1) $(FOBJS2)
 
 LIBMOD=
-# OBJS= $(SFOBJS) $(DFOBJS) $(CFOBJS) $(ZFOBJS)
-# SRCS= $(SFSRC) $(DFSRC) $(CFSRC) $(ZFSRC)
 LIBDIR=..
 CINCLUDES=-I.
 FINCLUDES=$(FMFLAG)$(LIBDIR) $(FMFLAG). $(FIFLAG).
@@ -65,9 +63,9 @@ lib: $(FOBJS)
 cpy: 
 	($(TOP)/cpy.sh $(TOP) $(TARGET)/mlprec/impl *.f90 *.F90)
 	cd aggregator && $(MAKE) cpy
-#	cd level && $(MAKE) cpy
-#	cd smoother && $(MAKE) cpy
-#	cd solver && $(MAKE) cpy
+	cd level && $(MAKE) cpy
+	cd smoother && $(MAKE) cpy
+	cd solver && $(MAKE) cpy
 
 
 $(FSRC1): mld_$(ARITH)%.f90 : X%.p90

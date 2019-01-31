@@ -60,7 +60,7 @@ module mld_@X@_gs_solver
     real(@FKIND@)             :: eps
   contains
     procedure, pass(sv) :: dump    => mld_@X@_gs_solver_dmp
-    procedure, pass(sv) :: ccheck  => @X@_gs_solver_check
+    procedure, pass(sv) :: check   => @X@_gs_solver_check
     procedure, pass(sv) :: clone   => mld_@X@_gs_solver_clone
     procedure, pass(sv) :: build   => mld_@X@_gs_solver_bld
     procedure, pass(sv) :: cnv     => mld_@X@_gs_solver_cnv
