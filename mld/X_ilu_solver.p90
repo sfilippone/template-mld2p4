@@ -68,7 +68,7 @@ module mld_@X@_ilu_solver
     real(@FKIND@)                :: thresh
   contains
     procedure, pass(sv) :: dump    => mld_@X@_ilu_solver_dmp
-    procedure, pass(sv) :: ccheck  => @X@_ilu_solver_check
+    procedure, pass(sv) :: check   => @X@_ilu_solver_check
     procedure, pass(sv) :: clone   => mld_@X@_ilu_solver_clone
     procedure, pass(sv) :: build   => mld_@X@_ilu_solver_bld
     procedure, pass(sv) :: cnv     => mld_@X@_ilu_solver_cnv
