@@ -109,18 +109,18 @@ module mld_@X@_inner_mod
       type(psb_@X@spmat_type), intent(out)  :: op_prol
       integer(psb_ipk_), intent(out)      :: info
     end subroutine mld_@X@_lev_aggrmap_bld
-    subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,op_prol,info)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
-      implicit none 
-      integer(psb_ipk_), intent(in)     :: iorder
-      integer(psb_ipk_), intent(in)       :: aggr_type
-      real(@FKIND@), intent(in)           :: theta
-      type(psb_@X@spmat_type), intent(in) :: a
-      type(psb_desc_type), intent(in)     :: desc_a
-      integer(psb_ipk_), allocatable, intent(out) :: ilaggr(:),nlaggr(:)
-      type(psb_@X@spmat_type), intent(out)  :: op_prol        
-      integer(psb_ipk_), intent(out)      :: info
-    end subroutine mld_@X@aggrmap_bld
+!!$    subroutine mld_@X@aggrmap_bld(aggr_type,iorder,theta,a,desc_a,ilaggr,nlaggr,op_prol,info)
+!!$      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
+!!$      implicit none 
+!!$      integer(psb_ipk_), intent(in)     :: iorder
+!!$      integer(psb_ipk_), intent(in)       :: aggr_type
+!!$      real(@FKIND@), intent(in)           :: theta
+!!$      type(psb_@X@spmat_type), intent(in) :: a
+!!$      type(psb_desc_type), intent(in)     :: desc_a
+!!$      integer(psb_ipk_), allocatable, intent(out) :: ilaggr(:),nlaggr(:)
+!!$      type(psb_@X@spmat_type), intent(out)  :: op_prol        
+!!$      integer(psb_ipk_), intent(out)      :: info
+!!$    end subroutine mld_@X@aggrmap_bld
   end interface mld_aggrmap_bld
   
   interface mld_map_to_tprol
