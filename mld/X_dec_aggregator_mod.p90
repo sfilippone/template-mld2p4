@@ -167,6 +167,7 @@ contains
     implicit none 
     class(mld_@X@_dec_aggregator_type), intent(inout) :: ag
 
+    call ag%mld_@X@_base_aggregator_type%default()
     ag%map_bld => mld_@X@_soc1_map_bld
     
     return
