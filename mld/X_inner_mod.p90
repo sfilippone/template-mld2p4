@@ -97,20 +97,6 @@ module mld_@X@_inner_mod
     end subroutine mld_@X@mlprec_aply_vect
   end interface mld_mlprec_aply
  
-  interface mld_aggrmap_bld
-    subroutine mld_@X@_lev_aggrmap_bld(p,a,desc_a,ilaggr,nlaggr,op_prol,info)
-      import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
-      import :: mld_@X@_onelev_type
-      implicit none 
-      type(mld_@X@_onelev_type), intent(inout), target :: p
-      type(psb_@X@spmat_type), intent(in) :: a
-      type(psb_desc_type), intent(in)     :: desc_a
-      integer(psb_ipk_), intent(out) :: ilaggr(:),nlaggr(:)
-      type(psb_@X@spmat_type), intent(out)  :: op_prol
-      integer(psb_ipk_), intent(out)      :: info
-    end subroutine mld_@X@_lev_aggrmap_bld
-  end interface mld_aggrmap_bld
-  
   interface mld_map_to_tprol
     subroutine mld_@X@_map_to_tprol(desc_a,ilaggr,nlaggr,op_prol,info)
       use psb_base_mod, only : psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_
