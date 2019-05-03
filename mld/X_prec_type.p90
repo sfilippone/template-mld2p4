@@ -113,6 +113,7 @@ module mld_@X@_prec_type
     procedure, pass(prec)               :: free           => mld_@X@_prec_free
     procedure, pass(prec)               :: allocate_wrk   => mld_@X@_allocate_wrk
     procedure, pass(prec)               :: free_wrk       => mld_@X@_free_wrk
+    procedure, pass(prec)               :: is_allocated_wrk => mld_@X@_is_allocated_wrk
     procedure, pass(prec)               :: get_complexity => mld_@X@_get_compl
     procedure, pass(prec)               :: cmp_complexity => mld_@X@_cmp_compl
     procedure, pass(prec)               :: get_avg_cr => mld_@X@_get_avg_cr
@@ -860,7 +861,7 @@ contains
     end if
   end subroutine @X@_prec_move_alloc
 
-  subroutine mld_@X@_allocate_wrk(prec,info,vmold)
+  subroutine mld_@X@_allocate_wrk(prec,info,vmold,desc)
     use psb_base_mod
     implicit none
     
@@ -868,7 +869,12 @@ contains
     class(mld_@X@prec_type), intent(inout) :: prec
     integer(psb_ipk_), intent(out)        :: info
     class(psb_@X@_base_vect_type), intent(in), optional  :: vmold
-
+    !
+    ! In MLD the DESC optional argument is ignored, since
+    ! the necessary info is contained in the various entries of the
+    ! PRECV component. 
+    type(psb_desc_type), intent(in), optional  :: desc
+    
     ! Local variables
     integer(psb_ipk_)   :: me,err_act,i,j,level,nlev, nc2l
     character(len=20)   :: name
@@ -899,8 +905,6 @@ contains
     return
     
   end subroutine mld_@X@_allocate_wrk
-
-
 
   subroutine mld_@X@_free_wrk(prec,info)
     use psb_base_mod
@@ -935,5 +939,19 @@ contains
     return
 
   end subroutine mld_@X@_free_wrk
+
+  function mld_@X@_is_allocated_wrk(prec) result(res)
+    use psb_base_mod
+    implicit none
+    
+    ! Arguments
+    class(mld_@X@prec_type), intent(in) :: prec
+    logical :: res
+
+    res = .false.
+    if (.not.allocated(prec%precv)) return
+    res = allocated(prec%precv(1)%wrk)
+     
+  end function mld_@X@_is_allocated_wrk
 
 end module mld_@X@_prec_type
