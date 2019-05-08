@@ -82,6 +82,7 @@ subroutine mld_@X@cprecseti(p,what,val,info,ilev,ilmax,pos,idx)
   use mld_@X@_jac_smoother
   use mld_@X@_as_smoother
   use mld_@X@_diag_solver
+  use mld_@X@_l1_diag_solver
   use mld_@X@_ilu_solver
   use mld_@X@_id_solver
   use mld_@X@_gs_solver
