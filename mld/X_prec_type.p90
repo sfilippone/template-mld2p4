@@ -744,7 +744,6 @@ contains
 
   end subroutine mld_@X@_dump
 
-
   subroutine mld_@X@_cnv(prec,info,amold,vmold,imold)
 
     implicit none 
