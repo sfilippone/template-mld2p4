@@ -816,7 +816,7 @@ contains
   function @X@_wrk_sizeof(wk) result(val)
     use psb_realloc_mod
     implicit none 
-    class(mld_dmlprec_wrk_type), intent(in) :: wk
+    class(mld_@X@mlprec_wrk_type), intent(in) :: wk
     integer(psb_long_int_k_) :: val
     integer :: i
     val = 0
