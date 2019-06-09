@@ -10,7 +10,7 @@ MODULES=$(BASIC_MODS) $(UTIL_MODS)
 SRC= Xaggrmat_biz_bld.p90 Xaggrmat_minnrg_bld.p90 Xaggrmat_nosmth_bld.p90 \
     Xaggrmat_smth_bld.p90 X_dec_aggregator_mat_bld.p90 X_dec_aggregator_tprol.p90 \
     X_soc1_map_bld.p90 X_soc2_map_bld.p90 X_map_to_tprol.p90 X_dec_aggregator_mat_asb.p90 \
-    X_symdec_aggregator_tprol.p90
+    X_symdec_aggregator_tprol.p90 X_par_csr_spspmm.p90
 
 
 FSRC1=$(patsubst %.p90, %.f90, $(subst X, mld_$(ARITH), $(filter %.p90, $(SRC))))
