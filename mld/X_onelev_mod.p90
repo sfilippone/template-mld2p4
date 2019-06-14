@@ -382,16 +382,16 @@ module mld_@X@_onelev_mod
 
   interface 
     subroutine mld_@X@_base_onelev_dump(lv,level,info,prefix,head,ac,rp,smoother,&
-         & solver,tprol,global_num)
+         & solver,tprol,global_num, global_gather)
       import :: psb_@X@spmat_type, psb_@X@_vect_type, psb_@X@_base_vect_type, &
            & psb_@X@linmap_type, @FKIND@, mld_@X@_onelev_type, &
            & psb_ipk_, psb_long_int_k_, psb_desc_type
       implicit none 
-      class(mld_@X@_onelev_type), intent(in) :: lv
-      integer(psb_ipk_), intent(in)          :: level
-      integer(psb_ipk_), intent(out)         :: info
-      character(len=*), intent(in), optional :: prefix, head
-      logical, optional, intent(in)    :: ac, rp, smoother, solver, tprol, global_num
+      class(mld_@X@_onelev_type), intent(inout) :: lv
+      integer(psb_ipk_), intent(in)             :: level
+      integer(psb_ipk_), intent(out)            :: info
+      character(len=*), intent(in), optional    :: prefix, head
+      logical, optional, intent(in)    :: ac, rp, smoother, solver, tprol, global_num, global_gather
     end subroutine mld_@X@_base_onelev_dump
   end interface
   
