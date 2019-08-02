@@ -70,6 +70,7 @@ module mld_@X@_sludist_solver
     procedure, pass(sv) :: sizeof  => @X@_sludist_solver_sizeof
     procedure, nopass   :: get_fmt => @X@_sludist_solver_get_fmt
     procedure, nopass   :: get_id  => @X@_sludist_solver_get_id
+    procedure, pass(sv) :: is_global => @X@_sludist_solver_is_global
 #if defined(HAVE_FINAL) 
     final               :: @X@_sludist_solver_finalize
 #endif
@@ -79,7 +80,8 @@ module mld_@X@_sludist_solver
   private :: @X@_sludist_solver_bld, @X@_sludist_solver_apply, &
        &  @X@_sludist_solver_free,   @X@_sludist_solver_descr, &
        &  @X@_sludist_solver_sizeof, @X@_sludist_solver_apply_vect, &
-       &  @X@_sludist_solver_get_fmt,  @X@_sludist_solver_get_id
+       &  @X@_sludist_solver_get_fmt,  @X@_sludist_solver_get_id, &
+       &  @X@_sludist_solver_is_global
 #if defined(HAVE_FINAL) 
   private :: @X@_sludist_solver_finalize
 #endif
@@ -355,6 +357,15 @@ contains
     return
   end subroutine @X@_sludist_solver_free
 
+  ! 
+  function @X@_sludist_solver_is_global(sv) result(val)
+    implicit none 
+    class(mld_@X@_sludist_solver_type), intent(in) :: sv
+    logical  :: val
+
+    val = .true.
+  end function @X@_sludist_solver_is_global
+  
 #if defined(HAVE_FINAL)
   subroutine @X@_sludist_solver_finalize(sv)
 
