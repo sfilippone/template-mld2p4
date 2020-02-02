@@ -98,7 +98,7 @@ subroutine  mld_@X@_dec_aggregator_mat_asb(ag,parms,a,desc_a,ilaggr,nlaggr,&
   type(psb_desc_type), intent(inout)     :: desc_ac
   integer(psb_ipk_), intent(out)         :: info
   !
-  integer(psb_mpk_)              :: ictxt, np, me
+  integer(psb_ipk_)              :: ictxt, np, me
   type(psb_@LX@_coo_sparse_mat)  :: acoo, bcoo
   type(psb_@LX@_csr_sparse_mat)  :: acsr1
   type(psb_@LX@spmat_type)       :: lac, lac1
