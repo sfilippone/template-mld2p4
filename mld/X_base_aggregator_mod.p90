@@ -118,7 +118,7 @@ module mld_@X@_base_aggregator_mod
     end subroutine mld_@X@_soc_map_bld
   end interface
 
-    interface mld_spmm_bld_inner
+  interface mld_spmm_bld_inner
     subroutine mld_@X@_spmm_bld_inner(a_csr,desc_a,ilaggr,nlaggr,parms,ac,&
          & op_prol,op_restr,info)
       import :: psb_@LX@_csr_sparse_mat, psb_@LX@spmat_type, psb_desc_type, &
