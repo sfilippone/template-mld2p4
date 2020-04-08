@@ -117,7 +117,8 @@ module mld_@X@_inner_mod
       type(psb_desc_type), intent(in)               :: desc_a
       integer(psb_lpk_), intent(inout)              :: ilaggr(:), nlaggr(:)
       type(mld_@RT@ml_parms), intent(inout)         :: parms 
-      type(psb_@LX@spmat_type), intent(out)          :: ac,op_prol,op_restr
+      type(psb_@LX@spmat_type), intent(inout)        :: op_prol
+      type(psb_@LX@spmat_type), intent(out)          :: ac,op_restr
       integer(psb_ipk_), intent(out)                :: info
     end subroutine mld_@X@aggrmat_var_bld
   end interface
