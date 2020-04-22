@@ -174,6 +174,7 @@ subroutine mld_@X@_spmm_bld_inner(a_csr,desc_a,nlaggr,parms,ac,&
   if (debug) write(0,*) me,trim(name),' Fixing ac ',&
        & ac_coo%get_nrows(),ac_coo%get_ncols(), nza
   call ac_coo%fix(info)
+  nza    = ac_coo%get_nzeros()
   call desc_cprol%indxmap%l2gip(ac_coo%ia(1:nza),info)
   call desc_cprol%indxmap%l2gip(ac_coo%ja(1:nza),info)
   call ac_coo%set_nrows(ntaggr)
