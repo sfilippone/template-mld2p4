@@ -9,7 +9,7 @@ MODULES=$(BASIC_MODS) $(UTIL_MODS)
 SRC=X_base_solver_apply.p90 X_base_solver_apply_vect.p90 \
     X_base_solver_bld.p90 X_base_solver_check.p90 X_base_solver_cnv.p90 \
     X_base_solver_descr.p90 X_base_solver_dmp.p90 X_base_solver_clone.p90 \
-    X_base_solver_free.p90 \
+    X_base_solver_free.p90 X_base_solver_clone_settings.p90 X_base_solver_clear_data.p90 \
     X_base_solver_csetc.p90 X_base_solver_cseti.p90 X_base_solver_csetr.p90 \
     X_diag_solver_apply.p90 X_diag_solver_apply_vect.p90 \
     X_diag_solver_bld.p90  X_diag_solver_clone.p90 X_diag_solver_dmp.p90  X_diag_solver_cnv.p90 \
