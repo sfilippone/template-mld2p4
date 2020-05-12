@@ -70,6 +70,8 @@ module mld_@X@_ilu_solver
     procedure, pass(sv) :: dump    => mld_@X@_ilu_solver_dmp
     procedure, pass(sv) :: check   => @X@_ilu_solver_check
     procedure, pass(sv) :: clone   => mld_@X@_ilu_solver_clone
+    procedure, pass(sv) :: clone_settings => mld_@X@_ilu_solver_clone_settings
+    procedure, pass(sv) :: clear_data     => mld_@X@_ilu_solver_clear_data
     procedure, pass(sv) :: build   => mld_@X@_ilu_solver_bld
     procedure, pass(sv) :: cnv     => mld_@X@_ilu_solver_cnv
     procedure, pass(sv) :: apply_v => mld_@X@_ilu_solver_apply_vect
@@ -194,6 +196,33 @@ module mld_@X@_ilu_solver
       class(mld_@X@_base_solver_type), allocatable, intent(inout) :: svout
       integer(psb_ipk_), intent(out)              :: info
     end subroutine mld_@X@_ilu_solver_clone
+  end interface
+
+  interface
+    subroutine mld_@X@_ilu_solver_clone_settings(sv,svout,info)
+      import :: psb_desc_type, psb_@X@spmat_type,  psb_@X@_base_sparse_mat, &
+           & psb_@X@_vect_type, psb_@X@_base_vect_type, @FKIND@, &
+           & mld_@X@_base_solver_type, mld_@X@_ilu_solver_type, psb_ipk_
+      Implicit None
+      
+      ! Arguments
+      class(mld_@X@_ilu_solver_type), intent(inout) :: sv
+      class(mld_@X@_base_solver_type), intent(inout) :: svout
+      integer(psb_ipk_), intent(out)               :: info
+    end subroutine mld_@X@_ilu_solver_clone_settings
+  end interface
+
+  interface
+    subroutine mld_@X@_ilu_solver_clear_data(sv,info)
+      import :: psb_desc_type, psb_@X@spmat_type,  psb_@X@_base_sparse_mat, &
+           & psb_@X@_vect_type, psb_@X@_base_vect_type, @FKIND@, &
+           & mld_@X@_ilu_solver_type, psb_ipk_
+      Implicit None
+      
+      ! Arguments
+      class(mld_@X@_ilu_solver_type), intent(inout) :: sv
+      integer(psb_ipk_), intent(out)                 :: info
+    end subroutine mld_@X@_ilu_solver_clear_data
   end interface
 
 contains
