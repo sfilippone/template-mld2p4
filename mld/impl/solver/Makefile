@@ -19,7 +19,8 @@ SRC=X_base_solver_apply.p90 X_base_solver_apply_vect.p90 \
     X_ilu_solver_dmp.p90 X_ilu_solver_clone.p90 X_ilu_solver_cnv.p90 \
     Xilu0_fact.p90 Xiluk_fact.p90 Xilut_fact.p90 \
     X_gs_solver_apply.p90 X_gs_solver_apply_vect.p90 X_gs_solver_bld.p90 \
-    X_gs_solver_dmp.p90 X_gs_solver_clone.p90 X_gs_solver_cnv.p90\
+    X_gs_solver_dmp.p90 X_gs_solver_clone.p90 X_gs_solver_cnv.p90 \
+    X_gs_solver_clear_data.p90 X_gs_solver_clone_settings.p90 \
     X_bwgs_solver_bld.p90 X_bwgs_solver_apply.p90 X_bwgs_solver_apply_vect.p90 \
     X_mumps_solver_bld.P90 X_mumps_solver_apply.P90 X_mumps_solver_apply_vect.P90 
 
