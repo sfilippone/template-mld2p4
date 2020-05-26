@@ -59,6 +59,7 @@ module mld_@X@_gs_solver
     type(psb_@X@spmat_type)      :: l, u
     integer(psb_ipk_)          :: sweeps
     real(@FKIND@)             :: eps
+    @RTYPE@(@FKIND@), allocatable  :: xtra(:)
   contains
     procedure, pass(sv) :: dump    => mld_@X@_gs_solver_dmp
     procedure, pass(sv) :: check   => @X@_gs_solver_check
@@ -77,6 +78,7 @@ module mld_@X@_gs_solver
     procedure, pass(sv) :: default => @X@_gs_solver_default
     procedure, pass(sv) :: sizeof  => @X@_gs_solver_sizeof
     procedure, pass(sv) :: get_nzeros => @X@_gs_solver_get_nzeros
+    procedure, pass(sv) :: set_xtra_d => @X@_gs_solver_set_xtra_d    
     procedure, nopass   :: get_wrksz => @X@_gs_solver_get_wrksize
     procedure, nopass   :: get_fmt    => @X@_gs_solver_get_fmt
     procedure, nopass   :: get_id    => @X@_gs_solver_get_id
@@ -584,5 +586,17 @@ contains
 
     val = 2
   end function @X@_gs_solver_get_wrksize
+
+
+  subroutine @X@_gs_solver_set_xtra_d(sv,d) 
+    implicit none 
+    ! Arguments
+    class(mld_@X@_gs_solver_type), intent(inout) :: sv
+    @RTYPE@(@FKIND@), intent(in)  :: d(:)
+
+    sv%xtra = d
+    
+    return
+  end subroutine @X@_gs_solver_set_xtra_d
 
 end module mld_@X@_gs_solver
