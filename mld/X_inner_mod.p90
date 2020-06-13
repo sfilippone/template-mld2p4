@@ -109,22 +109,23 @@ module mld_@X@_inner_mod
   end interface mld_map_to_tprol
 
   abstract interface
-    subroutine mld_@X@aggrmat_var_bld(a,desc_a,ilaggr,nlaggr,parms,ac,op_prol,op_restr,info)
+    subroutine mld_@X@aggrmat_var_bld(a,desc_a,ilaggr,nlaggr,parms,&
+         & ac,desc_ac,op_prol,op_restr,info)
       import :: psb_@X@spmat_type, psb_desc_type, @FKIND@, psb_ipk_, psb_lpk_, psb_@LX@spmat_type
       import ::  mld_@X@_onelev_type, mld_@RT@ml_parms
       implicit none 
-      type(psb_@X@spmat_type), intent(in)           :: a
-      type(psb_desc_type), intent(in)               :: desc_a
-      integer(psb_lpk_), intent(inout)              :: ilaggr(:), nlaggr(:)
-      type(mld_@RT@ml_parms), intent(inout)         :: parms 
-      type(psb_@LX@spmat_type), intent(inout)        :: op_prol
-      type(psb_@LX@spmat_type), intent(out)          :: ac,op_restr
-      integer(psb_ipk_), intent(out)                :: info
+      type(psb_@X@spmat_type), intent(in)         :: a
+      type(psb_desc_type), intent(in)             :: desc_a
+      integer(psb_lpk_), intent(inout)            :: ilaggr(:), nlaggr(:)
+      type(mld_@RT@ml_parms), intent(inout)        :: parms 
+      type(psb_@LX@spmat_type), intent(inout)     :: op_prol
+      type(psb_@LX@spmat_type), intent(out)       :: ac,op_restr
+      type(psb_desc_type), intent(inout)         :: desc_ac
+      integer(psb_ipk_), intent(out)             :: info
     end subroutine mld_@X@aggrmat_var_bld
   end interface
 
   procedure(mld_@X@aggrmat_var_bld) ::  mld_@X@aggrmat_nosmth_bld, &
-       & mld_@X@aggrmat_smth_bld, mld_@X@aggrmat_minnrg_bld, &
-       & mld_@X@aggrmat_biz_bld
+       & mld_@X@aggrmat_smth_bld, mld_@X@aggrmat_minnrg_bld
 
 end module mld_@X@_inner_mod
