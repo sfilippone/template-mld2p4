@@ -152,7 +152,7 @@ module mld_@X@_base_aggregator_mod
 
   interface mld_ptap
     subroutine mld_@X@_ptap(a_csr,desc_a,nlaggr,parms,ac,&
-         & coo_prol,desc_cprol,coo_restr,info)
+         & coo_prol,desc_cprol,coo_restr,info,desc_ax)
       import :: psb_@X@_csr_sparse_mat, psb_@LX@spmat_type, psb_desc_type, &
            & psb_@LX@_coo_sparse_mat, mld_@RT@ml_parms, @FKIND@, psb_ipk_, psb_lpk_
       implicit none
@@ -164,9 +164,10 @@ module mld_@X@_base_aggregator_mod
       type(psb_desc_type), intent(inout)         :: desc_cprol
       type(psb_@LX@spmat_type), intent(out)        :: ac
       integer(psb_ipk_), intent(out)             :: info
+      type(psb_desc_type), intent(inout), optional :: desc_ax
     end subroutine mld_@X@_ptap
     subroutine mld_@LX@_ptap(a_csr,desc_a,nlaggr,parms,ac,&
-         & coo_prol,desc_cprol,coo_restr,info)
+         & coo_prol,desc_cprol,coo_restr,info,desc_ax)
       import :: psb_@LX@_csr_sparse_mat, psb_@LX@spmat_type, psb_desc_type, &
            & psb_@LX@_coo_sparse_mat, mld_@RT@ml_parms, @FKIND@, psb_ipk_, psb_lpk_
       implicit none
@@ -178,6 +179,7 @@ module mld_@X@_base_aggregator_mod
       type(psb_desc_type), intent(inout)         :: desc_cprol
       type(psb_@LX@spmat_type), intent(out)        :: ac
       integer(psb_ipk_), intent(out)             :: info
+      type(psb_desc_type), intent(inout), optional :: desc_ax
     end subroutine mld_@LX@_ptap
   end interface mld_ptap
   

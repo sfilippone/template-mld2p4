@@ -115,7 +115,7 @@ module mld_@X@_inner_mod
       import ::  mld_@X@_onelev_type, mld_@RT@ml_parms
       implicit none 
       type(psb_@X@spmat_type), intent(in)         :: a
-      type(psb_desc_type), intent(in)             :: desc_a
+      type(psb_desc_type), intent(inout)          :: desc_a
       integer(psb_lpk_), intent(inout)            :: ilaggr(:), nlaggr(:)
       type(mld_@RT@ml_parms), intent(inout)        :: parms 
       type(psb_@LX@spmat_type), intent(inout)     :: op_prol
